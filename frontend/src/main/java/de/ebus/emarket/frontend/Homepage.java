@@ -21,7 +21,11 @@ public class Homepage extends WebPage {
     private ServiceProvider serviceProvider;
     
 	public Homepage(SystemUser user) {
-        add(new Label("oneComponent", "Welcome to the most simple pax-wicket application based on blueprint. Hallo " + user.getUsername()));
+		ISystemUserDAO dao = serviceProvider.getDaoProvider().getSystemUserDAO();
+		
+		user = dao.create(user);
+		
+        add(new Label("oneComponent", "Welcome to the most simple pax-wicket application based on blueprint. Hallo " + user.getId() + " " + user.getUsername()));
         add(new Link("logout") {
 			@Override
 			public void onClick() {
