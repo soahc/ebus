@@ -8,7 +8,7 @@ public class ServiceProvider {
 	private IDAOProvider daoProvider;
 	
 	public SystemUser checkUser(String username, String password){
-		return daoProvider.getSystemUserDAO().getSystemUser(username, password);
+		return daoProvider.getSystemUserDAO().readSystemUser(username, password);
 	}
 	
 	public IDAOProvider getDaoProvider() {
