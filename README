@@ -1,0 +1,50 @@
+A) Prerequirements:
+
+1. Download latest JDK 
+	- install
+	- add bin/ directory to PATH-Variable
+	- add C:\Program Files\Java\YOURJDK to JAVA_HOME-Variable
+
+2. Download Maven 3.1.1, 
+	- copy to c:/apache-maven-3.1.1
+	- add bin/ directory to PATH-Variable
+
+3. Download Apache ServiceMix 4.5.3 for Windows 
+from http://servicemix.apache.org/downloads.html
+	- copy to c:\apache-servicemix
+
+4. Download Putty from http://www.putty.org/
+	- copy it to where ever you want
+	- make a link to target putty.exe -ssh smx@localhost -P 8101 -pw smx
+
+//-----------------------------------------
+
+B) Run and adjust ServiceMix
+
+1. run c:\apache-servicemix\bin\start.ba
+2. run link to putty to get ssh connection to servicemix
+3. inside of servicemix-console run the following commands:
+
+features:addurl mvn:org.ops4j.pax.wicket/features/2.1.1/xml/features
+features:addurl mvn:org.ops4j.pax.wicket.samples/features/2.1.1/xml/features
+features:install webconsole	
+features:install wicket
+features:install pax-wicket
+features:install pax-wicket-spring
+features:install jndi
+features:install transaction 
+features:install jpa
+
+osgi:install -s wrap:mvn:commons-dbcp/commons-dbcp/1.4
+osgi:install -s mvn:org.apache.openjpa/openjpa/2.2.2
+osgi:install -s mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.serp/1.14.1_1
+osgi:install -s mvn:it.cnr.isti.domoware/org.postgresql.jdbc4/8.3-603
+
+//-----------------------------------------
+
+C) Run Project
+
+install -s mvn:de.ebus.emarket/persistence/0.0.1-SNAPSHOT
+install -s mvn:de.ebus.emarket/api/0.0.1-SNAPSHOT
+install -s mvn:de.ebus.emarket/server/0.0.1-SNAPSHOT
+install -s mvn:de.ebus.emarket/frontend/0.0.1-SNAPSHOT

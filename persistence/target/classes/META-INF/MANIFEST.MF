@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1383958126083
+Build-Jdk: 1.7.0_45
+Built-By: Soahc
+Bundle-ManifestVersion: 2
+Bundle-Name: persistence
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-SymbolicName: persistence
+Bundle-Version: 0.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: de.ebus.emarket.persistence.entities;version="0.0.1.SNAP
+ SHOT";uses:="javax.persistence,org.apache.openjpa.enhance"
+Import-Package: javax.persistence;version="[1.1,2)",org.apache.openjpa.e
+ nhance;version="[2.2,3)",org.apache.openjpa.util;version="[2.2,3)"
+Tool: Bnd-2.1.0.20130426-122213

@@ -1,0 +1,13 @@
+*.log
+.lock
+.history
+.projects
+.mylyn
+*.index
+.refactorings
+system_catalog.xml
+*.cache
+.launches
+.root
+.safetable
+.metadata/

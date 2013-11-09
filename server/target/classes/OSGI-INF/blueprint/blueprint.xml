@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:jpa="http://aries.apache.org/xmlns/jpa/v1.1.0" xmlns:tx="http://aries.apache.org/xmlns/transactions/v1.0.0">
+	
+	<bean id="systemUserDAOBean" class="de.ebus.emarket.server.daos.SystemUserDAO">
+		<tx:transaction method="*" value="Required" /> 
+        <jpa:context property="entityManager" unitname="emarket-pu" />
+	</bean>
+
+	<bean id="daoProviderService" class="de.ebus.emarket.server.DAOProvider">
+     	 <property name="systemUserDAO" ref="systemUserDAOBean" /> 
+    </bean>
+        
+    <service ref="daoProviderService" interface="de.ebus.emarket.api.IDAOProvider" />
+       
+    <!-- DataSource -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost/emarket" />
+        <property name="username" value="postgres" />
+        <property name="password" value="smx" />
+    </bean>
+
+    <!-- Expose DataSource as JNDI reference -->
+    <service id="DS" ref="dataSource" interface="javax.sql.DataSource">
+        <service-properties>
+            <entry key="osgi.jndi.service.name" value="jdbc/emarket" />
+        </service-properties>
+    </service>   
+    
+</blueprint>
