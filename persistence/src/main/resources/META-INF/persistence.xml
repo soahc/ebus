@@ -6,9 +6,9 @@
     <persistence-unit name="emarket-pu" transaction-type="JTA">
         <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
         <jta-data-source>osgi:service/javax.sql.DataSource/(osgi.jndi.service.name=jdbc/emarket)</jta-data-source>
-        <class>de.ebus.emarket.AEntity</class>
-        <class>de.ebus.emarket.Company</class>
-        <class>de.ebus.emarket.SystemUser</class>
+        <class>de.ebus.emarket.persistence.entities.AEntity</class>
+        <class>de.ebus.emarket.persistence.entities.Company</class>
+        <class>de.ebus.emarket.persistence.entities.SystemUser</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="openjpa.jdbc.SynchronizeMappings"
