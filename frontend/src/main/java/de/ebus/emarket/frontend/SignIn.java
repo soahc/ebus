@@ -8,7 +8,6 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.ops4j.pax.wicket.api.PaxWicketBean;
 
-import de.ebus.emarket.api.ISystemUserDAO;
 import de.ebus.emarket.persistence.entities.SystemUser;
 
 /**
@@ -32,27 +31,29 @@ public class SignIn extends WebPage {
     	@PaxWicketBean(name = "serviceProviderBean")
         private ServiceProvider serviceProvider;
     	
-    	SystemUser user;
+    	private SystemUser user;
+    	
     	public SignInForm(String id){
     		super(id);
     		user = new SystemUser();
     		user.setUsername("Test");
     		user.setPassword("test");
-        	add(new TextField<String>("username", new PropertyModel<String>(user, "username")));
+        	
+    		add(new TextField<String>("username", new PropertyModel<String>(user, "username")));
         	add(new PasswordTextField("userpassword", new PropertyModel<String>(user, "password")));		
     	}
     	
     	@Override
     	protected void onSubmit() {
-    		ISystemUserDAO systemUserDao = serviceProvider.getDaoProvider().getSystemUserDAO();
-    		SystemUser loggeruser = systemUserDao.getSystemUser(user.getUsername(), user.getPassword());
+    		
+    		//Hier wird jetzt ein User erwartet, der tatsächlich in der Datenbank steht!
+    		SystemUser loggeruser = serviceProvider.checkUser(user.getUsername(), user.getPassword());
+    		
     		if (loggeruser != null) {
     			setResponsePage(new Homepage(loggeruser));				
 			} else {
 				error("Wrong login!");
 			}
     	}
-
     }
-    
 }
