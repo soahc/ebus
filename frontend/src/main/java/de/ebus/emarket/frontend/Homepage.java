@@ -3,6 +3,7 @@ package de.ebus.emarket.frontend;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.ops4j.pax.wicket.api.PaxWicketBean;
 
 import de.ebus.emarket.api.ISystemUserDAO;
@@ -18,11 +19,14 @@ public class Homepage extends WebPage {
     @PaxWicketBean(name = "serviceProviderBean")
     private ServiceProvider serviceProvider;
     
-    public Homepage() {
-    	
-    	ISystemUserDAO systemUserDao = serviceProvider.getDaoProvider().getSystemUserDAO();
-    	//SystemUser user = systemUserDao.create(new SystemUser());
-    	SystemUser user = systemUserDao.getSystemUser("", "");
-        add(new Label("oneComponent", "Welcome to the most simple pax-wicket application based on blueprint. " + user.getId()));
+	public Homepage(SystemUser user) {
+        add(new Label("oneComponent", "Welcome to the most simple pax-wicket application based on blueprint. Hallo " + user.getUsername()));
+        add(new Link("logout") {
+			@Override
+			public void onClick() {
+				setResponsePage(SignIn.class);
+			}
+        	
+        });
     }
 }

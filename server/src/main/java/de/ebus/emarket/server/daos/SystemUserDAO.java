@@ -7,7 +7,13 @@ public class SystemUserDAO extends DAO implements ISystemUserDAO {
 
 	@Override
 	public SystemUser getSystemUser(String username, String password) {
-		return new SystemUser();
+		if ( !username.equals("Test") ) {
+			return null;
+		}
+		SystemUser user = new SystemUser();
+		user.setUsername(username);
+		user.setPassword(password);
+		return user;
 	}
 
 }
