@@ -35,7 +35,7 @@ features:install jndi
 features:install transaction 
 features:install jpa
 
-osgi:install -s wrap:mvn:commons-dbcp/commons-dbcp/1.4
+osgi:install -s mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/1.4_3
 osgi:install -s mvn:org.apache.openjpa/openjpa/2.2.2
 osgi:install -s mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.serp/1.14.1_1
 osgi:install -s mvn:it.cnr.isti.domoware/org.postgresql.jdbc4/8.3-603
