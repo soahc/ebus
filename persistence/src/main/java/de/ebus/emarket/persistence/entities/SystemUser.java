@@ -1,8 +1,10 @@
 package de.ebus.emarket.persistence.entities;
 
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
+@Entity
 public class SystemUser extends AEntity {
 
 	private static final long serialVersionUID = 5768237668903485327L;

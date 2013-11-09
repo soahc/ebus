@@ -3,6 +3,7 @@
 	
 	<reference id="daoProviderService" interface="de.ebus.emarket.api.IDAOProvider" />
 	
+	
 	<bean id="serviceProviderBean" class="de.ebus.emarket.frontend.ServiceProvider">
 		<property name="daoProvider" ref="daoProviderService" />
 	</bean>

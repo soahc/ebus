@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1383995062880
+Bnd-LastModified: 1384003378477
 Build-Jdk: 1.7.0_45
 Built-By: Soahc
 Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
@@ -13,19 +13,19 @@ Import-Package: org.apache.wicket;version="[6.7,7)",org.apache.wicket.ma
  ="[6.7,7)",org.apache.wicket.protocol.http;version="[6.7,7)",org.ops4j.
  pax.wicket.api;version="[2.1,3)",org.osgi.service.blueprint;version="[1
  .0.0,2.0.0)",de.ebus.emarket.api;version="[0.0,1)",de.ebus.emarket.pers
- istence.entities;version="[0.0,1)",org.apache.wicket.request.resource;v
- ersion="[6.7,7)",org.apache.wicket.request.http;version="[6.7,7)",org.a
- pache.wicket.event;version="[6.7,7)",org.apache.wicket.core.request.map
- per;version="[6.7,7)",org.ops4j.pax.wicket.util;version="[2.1,3)",org.a
- pache.wicket.session;version="[6.7,7)",net.sf.cglib.core;version="[2,3)
- ",org.apache.wicket.page;version="[6.7,7)",javax.servlet,org.osgi.frame
- work;version="[1.5,2)",org.apache.wicket.util.file;version="[6.7,7)",or
- g.apache.wicket.settings;version="[6.7,7)",org.apache.wicket.request;ve
- rsion="[6.7,7)",org.ops4j.pax.wicket.util.proxy;version="[2.1,3)",org.a
- pache.wicket.request.cycle;version="[6.7,7)",net.sf.cglib.proxy;version
- ="[2,3)",net.sf.cglib.reflect;version="[2,3)",org.apache.wicket.util;ve
- rsion="[6.7,7)",org.apache.wicket.markup.html.form;version="[6.7,7)",or
- g.apache.wicket.ajax;version="[6.7,7)",javax.servlet.http,org.apache.wi
- cket.request.mapper;version="[6.7,7)"
+ istence.entities;version="[0.0,1)",org.postgresql,org.apache.wicket.req
+ uest.resource;version="[6.7,7)",org.apache.wicket.session;version="[6.7
+ ,7)",org.apache.wicket.request.cycle;version="[6.7,7)",org.apache.wicke
+ t.page;version="[6.7,7)",org.apache.wicket.util;version="[6.7,7)",org.o
+ sgi.framework;version="[1.5,2)",org.apache.wicket.request;version="[6.7
+ ,7)",org.apache.wicket.request.http;version="[6.7,7)",org.apache.wicket
+ .core.request.mapper;version="[6.7,7)",org.apache.wicket.settings;versi
+ on="[6.7,7)",org.ops4j.pax.wicket.util;version="[2.1,3)",net.sf.cglib.p
+ roxy;version="[2,3)",javax.servlet.http,org.ops4j.pax.wicket.util.proxy
+ ;version="[2.1,3)",net.sf.cglib.core;version="[2,3)",org.apache.wicket.
+ ajax;version="[6.7,7)",org.apache.wicket.request.mapper;version="[6.7,7
+ )",org.apache.wicket.markup.html.form;version="[6.7,7)",org.apache.wick
+ et.util.file;version="[6.7,7)",javax.servlet,net.sf.cglib.reflect;versi
+ on="[2,3)",org.apache.wicket.event;version="[6.7,7)"
 Import-Service: de.ebus.emarket.api.IDAOProvider;multiple:=false
 Tool: Bnd-2.1.0.20130426-122213

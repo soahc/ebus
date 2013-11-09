@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1383990024791
+Bnd-LastModified: 1384004796593
 Build-Jdk: 1.7.0_45
 Built-By: Soahc
 Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
@@ -9,13 +9,13 @@ Bundle-Name: server Blueprint Bundle
 Bundle-SymbolicName: server
 Bundle-Version: 0.0.1.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
-DynamicImport-Package: *
+DynamicImport-Package: *,org.postgresql
 Export-Package: de.ebus.emarket.server;version="0.0.1.SNAPSHOT";uses:="d
  e.ebus.emarket.api",de.ebus.emarket.server.daos;version="0.0.1.SNAPSHOT
  ";uses:="de.ebus.emarket.api,de.ebus.emarket.persistence.entities,javax
  .persistence"
 Export-Service: de.ebus.emarket.api.IDAOProvider,javax.sql.DataSource;os
- gi.jndi.service.name="jdbc/emarket"
+ gi.jndi.service.name="jdbc/iams"
 Import-Package: de.ebus.emarket.api;version="[0.0,1)",de.ebus.emarket.pe
  rsistence.entities;version="[0.0,1)",javax.persistence;version="[1.1,2)
  ",javax.sql,org.apache.commons.dbcp;version="[1.4,2)",org.osgi.service.

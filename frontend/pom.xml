@@ -63,6 +63,7 @@
 							org.osgi.service.blueprint,
 							org.apache.wicket.core.request.mapper,
 							org.apache.wicket.markup.html.form,
+							org.postgresql,
 							*
 						</Import-Package>
 					</instructions>
@@ -112,5 +113,7 @@
              <version>8.3-603</version>
              <type>bundle</type>
          </dependency>
+         
+
 	</dependencies>
 </project>
