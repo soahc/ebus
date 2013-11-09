@@ -46,6 +46,8 @@
 							org.apache.wicket.markup.html.basic,
 							org.apache.wicket.protocol.http,
 							org.apache.wicket.request.http,
+							org.apache.wicket.authroles.authentication,
+							org.apache.wicket.authroles.authorization.strategies.role,
 							org.ops4j.pax.wicket.api,
 							org.ops4j.pax.wicket.util,
 							org.ops4j.pax.wicket.util.proxy,
@@ -63,6 +65,7 @@
 							org.osgi.service.blueprint,
 							org.apache.wicket.core.request.mapper,
 							org.apache.wicket.markup.html.form,
+							org.postgresql,
 							*
 						</Import-Package>
 					</instructions>
@@ -112,11 +115,11 @@
              <version>8.3-603</version>
              <type>bundle</type>
          </dependency>
-         <dependency>
+         <!-- dependency>
 		     <groupId>org.apache.wicket</groupId>
 		     <artifactId>wicket-auth-roles</artifactId>
 		     <version>6.12.0</version>
-		</dependency>
+		</dependency-->
          <dependency>
 			 <groupId>org.slf4j</groupId>
 			 <artifactId>slf4j-api</artifactId>

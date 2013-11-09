@@ -17,4 +17,7 @@ public class ServiceProvider {
 	public int returnInt(){
 		return 6;
 	}
+	
+	// --------------------------------
+	
 }

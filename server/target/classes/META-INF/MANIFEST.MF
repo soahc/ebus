@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1384006146122
+Build-Jdk: 1.7.0_25
+Built-By: Marcus
+Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
+Bundle-Description: server OSGi blueprint bundle project.
+Bundle-ManifestVersion: 2
+Bundle-Name: server Blueprint Bundle
+Bundle-SymbolicName: server
+Bundle-Version: 0.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+DynamicImport-Package: *,org.postgresql
+Export-Package: de.ebus.emarket.server;version="0.0.1.SNAPSHOT";uses:="d
+ e.ebus.emarket.api",de.ebus.emarket.server.daos;version="0.0.1.SNAPSHOT
+ ";uses:="de.ebus.emarket.api,de.ebus.emarket.persistence.entities,javax
+ .persistence"
+Export-Service: de.ebus.emarket.api.IDAOProvider,javax.sql.DataSource;os
+ gi.jndi.service.name="jdbc/iams"
+Import-Package: de.ebus.emarket.api;version="[0.0,1)",de.ebus.emarket.pe
+ rsistence.entities;version="[0.0,1)",javax.persistence;version="[1.1,2)
+ ",javax.sql,org.apache.commons.dbcp;version="[1.4,2)",org.osgi.service.
+ blueprint;version="[1.0.0,2.0.0)"
+Meta-Persistence: META-INF/persistence.xml
+Tool: Bnd-2.1.0.20130426-122213
