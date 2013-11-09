@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1383985256039
+Bnd-LastModified: 1383990024791
 Build-Jdk: 1.7.0_45
 Built-By: Soahc
 Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml

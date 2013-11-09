@@ -21,8 +21,8 @@ public class Homepage extends WebPage {
     public Homepage() {
     	
     	ISystemUserDAO systemUserDao = serviceProvider.getDaoProvider().getSystemUserDAO();
-    	//SystemUser user = systemUserDao.create(new SystemUser());
-    	SystemUser user = systemUserDao.getSystemUser("", "");
+    	SystemUser user = systemUserDao.create(new SystemUser());
+    	//SystemUser user = systemUserDao.getSystemUser("", "");
         add(new Label("oneComponent", "Welcome to the most simple pax-wicket application based on blueprint. " + user.getId()));
     }
 }
