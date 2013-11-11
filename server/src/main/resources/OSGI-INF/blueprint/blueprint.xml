@@ -6,9 +6,21 @@
 		<tx:transaction method="*" value="Required" /> 
         <jpa:context property="entityManager" unitname="iams-pu" />
 	</bean>
+	
+	<bean id="companyDAOBean" class="de.ebus.emarket.server.daos.CompanyDAO">
+		<tx:transaction method="*" value="Required" /> 
+        <jpa:context property="entityManager" unitname="iams-pu" />
+	</bean>
+	
+	<bean id="productDAOBean" class="de.ebus.emarket.server.daos.ProductDAO">
+		<tx:transaction method="*" value="Required" /> 
+        <jpa:context property="entityManager" unitname="iams-pu" />
+	</bean>
 
 	<bean id="daoProviderService" class="de.ebus.emarket.server.DAOProvider">
      	 <property name="systemUserDAO" ref="systemUserDAOBean" /> 
+     	 <property name="companyDAO" ref="companyDAOBean" /> 
+     	 <property name="productDAO" ref="productDAOBean" /> 
     </bean>
         
     <service ref="daoProviderService" interface="de.ebus.emarket.api.IDAOProvider" />
