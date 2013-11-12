@@ -1,4 +1,4 @@
-package de.ebus.emarket.frontend.fileupload;
+package de.ebus.emarket.frontend.pages.components;
 
 import java.io.File;
 import org.apache.wicket.markup.html.form.Form;
