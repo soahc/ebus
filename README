@@ -1,5 +1,5 @@
 A) Prerequirements:
-   ---------------
+
    
 1. Download latest JDK 
 	- install
@@ -21,6 +21,10 @@ from http://servicemix.apache.org/downloads.html
 5. Download and Install latest postgresql
 	- set password of user postgre to smx
 	- create database 'iams'
+	
+6. Create zip-UploadFolder
+	- C:\data\emarket\ on Windows
+	- /data/emarket/ on Unix
 
 //-----------------------------------------
 
