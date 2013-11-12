@@ -17,6 +17,9 @@ from http://servicemix.apache.org/downloads.html
 	- copy it to where ever you want
 	- make a link to target putty.exe -ssh smx@localhost -P 8101 -pw smx
 
+5. Download and Install latest postgresql
+	- set password of user postgre to smx
+
 //-----------------------------------------
 
 B) Run and adjust ServiceMix
@@ -39,6 +42,8 @@ osgi:install -s mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.
 osgi:install -s mvn:org.apache.openjpa/openjpa/2.2.2
 osgi:install -s mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.serp/1.14.1_1
 osgi:install -s mvn:it.cnr.isti.domoware/org.postgresql.jdbc4/8.3-603
+
+4. restart ServiceMix
 
 //-----------------------------------------
 
