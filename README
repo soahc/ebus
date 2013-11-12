@@ -19,6 +19,7 @@ from http://servicemix.apache.org/downloads.html
 
 5. Download and Install latest postgresql
 	- set password of user postgre to smx
+	- create database 'iams'
 
 //-----------------------------------------
 
@@ -47,9 +48,11 @@ osgi:install -s mvn:it.cnr.isti.domoware/org.postgresql.jdbc4/8.3-603
 
 //-----------------------------------------
 
-C) Run Project
+C) install Project-Bundles
 
 install -s mvn:de.ebus.emarket/persistence/0.0.1-SNAPSHOT
 install -s mvn:de.ebus.emarket/api/0.0.1-SNAPSHOT
 install -s mvn:de.ebus.emarket/server/0.0.1-SNAPSHOT
 install -s mvn:de.ebus.emarket/frontend/0.0.1-SNAPSHOT
+
+D) open 'http://http://localhost:8181/frontend'
