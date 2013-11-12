@@ -1,11 +1,27 @@
-<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" >
-    <head>  
-        <title>OPS4J PAX Wicket Plain Simple Samples</title>
-    </head>
-    <body>
-    	<div>
-	        <span wicket:id="oneComponent" >[Text]</span>
-    	</div>
-        <a wicket:id="logout">Logout</a>
-    </body>
+<html
+	xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<head>
+<title>BlaBlub Title</title>
+<style>
+.feedbackPanelINFO {
+	color: green;
+}
+.feedbackPanelERROR {
+	color: red;
+}
+</style>
+</head>
+
+<body>
+	<h1>Upload Zip File</h1>
+
+	<div wicket:id="feedback"></div>
+	<form wicket:id="form">
+		<p>
+			<label>Select file :</label> <input wicket:id="fileUpload" size="40"
+				type="file" /> <input type="submit" value="Upload" />
+		</p>
+	</form>
+	<a wicket:id="logout">Logout</a>
+</body>
 </html>

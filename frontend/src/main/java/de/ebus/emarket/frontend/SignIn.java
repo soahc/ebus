@@ -50,7 +50,7 @@ public class SignIn extends WebPage {
     		SystemUser loggeruser = serviceProvider.checkUser(user.getUsername(), user.getPassword());
     		
     		if (loggeruser != null) {
-    			setResponsePage(new Homepage(loggeruser));				
+    			setResponsePage(new Homepage());				
 			} else {
 				error("Wrong login!");
 			}
