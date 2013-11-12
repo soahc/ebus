@@ -4,7 +4,7 @@ A) Prerequirements:
 1. Download latest JDK 
 	- install
 	- add bin/ directory to PATH-Variable
-	- add C:\Program Files\Java\YOURJDK to JAVA_HOME-Variable
+	- add java home to JAVA_HOME-Variable
 
 2. Download Maven 3.1.1, 
 	- copy to c:/apache-maven-3.1.1
@@ -12,9 +12,10 @@ A) Prerequirements:
 
 3. Download Apache ServiceMix 4.5.3 for Windows 
 from http://servicemix.apache.org/downloads.html
-	- copy to c:\apache-servicemix
+	- copy to hd: /opt/apache-servicemix
+	- or c:/apache-servicemix
 
-4. Download Putty from http://www.putty.org/
+4. On Windows download Putty from http://www.putty.org/
 	- copy it to where ever you want
 	- make a link to target putty.exe -ssh smx@localhost -P 8101 -pw smx
 
