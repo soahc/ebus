@@ -1,7 +1,7 @@
 #python
 import subprocess
 import os 
-import paramiko 
+import sys
 from time import *
 
 def log(txt,init="---"):
@@ -14,24 +14,42 @@ def updateBunde(ssh, bundleIdent):
 	ssh.exec_command("bundle:update "+bundleid)
 	log ("update: "+bundleIdent,"---")
 
-log ('run mvn build','***')
+if sys.version_info < (2, 7):
+	log ('Python Version must be >= 2.7')
 
-mvnoutput = subprocess.check_output("mvn install", shell=True, stderr=subprocess.STDOUT)
-if (mvnoutput.count("BUILD SUCCESS")==0):
-	log ('fehler')
+try: 
+	import paramiko
+except ImportError:
+	log ('lib paramiko is required, but not found -> http://www.lag.net/paramiko/','>>>')
 	quit()
+
+#------------------------------------------------------
+
+log ('BuildScript v1.0','***')
+log ('run mvn build')
+
+try:
+	subprocess.check_output("mvn install", shell=True, stderr=subprocess.STDOUT)
+except subprocess.CalledProcessError as e:
+	log ('build failed','>>>')
+	quit()
+
+log ('build success')
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 ssh.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
 
-ssh.connect('localhost', port=8101, username='smx', password='smx')
+log ('connect servicemix via ssh')
+try:
+	ssh.connect('localhost', port=8101, username='smx', password='smx')
 
-updateBunde(ssh,"bundle:install mvn:de.ebus.emarket/persistence/0.0.1-SNAPSHOT")
-updateBunde(ssh,"bundle:install mvn:de.ebus.emarket/api/0.0.1-SNAPSHOT")
-updateBunde(ssh,"bundle:install mvn:de.ebus.emarket/server/0.0.1-SNAPSHOT")
-updateBunde(ssh,"bundle:install mvn:de.ebus.emarket/frontend/0.0.1-SNAPSHOT")
+	updateBunde(ssh,"bundle:install mvn:de.ebus.emarket/persistence/0.0.1-SNAPSHOT")
+	updateBunde(ssh,"bundle:install mvn:de.ebus.emarket/api/0.0.1-SNAPSHOT")
+	updateBunde(ssh,"bundle:install mvn:de.ebus.emarket/server/0.0.1-SNAPSHOT")
+	updateBunde(ssh,"bundle:install mvn:de.ebus.emarket/frontend/0.0.1-SNAPSHOT")
 
+except:
+	log ('connection refused - maybe servicemix not running','>>>') 
 ssh.close()
 
-log ('end','***')
