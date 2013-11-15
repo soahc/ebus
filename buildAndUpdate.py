@@ -8,7 +8,7 @@ def log(txt,init="---"):
     print strftime(init+" (%H:%M:%S) ", localtime())+txt
 
 def updateBunde(ssh, bundleIdent):
-	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("bundle:install mvn:"+bundleIdent)
+	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("bundle:install -s mvn:"+bundleIdent)
 	output = ssh_stdout.read()
 	bundleid = output[output.index(':')+2:]
 	ssh.exec_command("bundle:update "+bundleid)
