@@ -25,7 +25,6 @@ public class AuthorizationStrategy implements IAuthorizationStrategy {
             {
                 return true;
             }
-            System.out.println("THROW UND SO");
             throw new RestartResponseAtInterceptPageException(LoginPage.class);
         }
         return true;

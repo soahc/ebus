@@ -1,6 +1,8 @@
 package de.ebus.emarket.frontend.pages.components;
 
 import java.io.File;
+import java.util.Date;
+
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
@@ -10,10 +12,11 @@ public class FileUploadForm extends Form<Void> {
 
 	private static final long serialVersionUID = 4840983544285452921L;
 	private FileUploadField fileUpload;
-
-	public FileUploadForm(String id) {
+	private String fileID = null;
+	
+	public FileUploadForm(String id, String fileID) {
 		super(id);
-
+		this.fileID = fileID;
 		//setMultiPart(true);
 		setMaxSize(Bytes.megabytes(10));
 		add(fileUpload = new FileUploadField("fileUpload"));
@@ -33,9 +36,12 @@ public class FileUploadForm extends Form<Void> {
 
 		final FileUpload uploadedFile = fileUpload.getFileUpload();
 		if (uploadedFile != null) {
-
+			//TODO:
+			//checkfiletype up uploadedFile.getContentType()
+			
+			
 			// write to a new file
-			File newFile = new File(getUploadFolder() + uploadedFile.getClientFileName());
+			File newFile = new File(getUploadFolder() + fileID + "_" + new Date().getTime() + ".zip");
 
 			if (newFile.exists()) {
 				newFile.delete();

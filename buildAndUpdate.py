@@ -4,6 +4,8 @@ import os
 import sys
 from time import *
 
+from thread import start_new_thread
+
 bundles = [
 "de.ebus.emarket/persistence/0.0.1-SNAPSHOT",
 "de.ebus.emarket/api/0.0.1-SNAPSHOT",
@@ -52,7 +54,10 @@ try:
 	ssh.connect('localhost', port=8101, username='smx', password='smx')
 
 	for bundle in bundles:
+		#start_new_thread(updateBunde, (ssh,bundle))
+		#time.sleep(0.5)
 		updateBunde(ssh,bundle)
+		
 
 except:
 	log ('connection refused - maybe servicemix not running','>>>') 
