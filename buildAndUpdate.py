@@ -4,6 +4,13 @@ import os
 import sys
 from time import *
 
+bundles = [
+"de.ebus.emarket/persistence/0.0.1-SNAPSHOT",
+"de.ebus.emarket/api/0.0.1-SNAPSHOT",
+"de.ebus.emarket/server/0.0.1-SNAPSHOT",
+"de.ebus.emarket/frontend/0.0.1-SNAPSHOT",
+]
+
 def log(txt,init="---"):
     print strftime(init+" (%H:%M:%S) ", localtime())+txt
 
@@ -44,10 +51,8 @@ log ('* connect servicemix via ssh')
 try:
 	ssh.connect('localhost', port=8101, username='smx', password='smx')
 
-	updateBunde(ssh,"de.ebus.emarket/persistence/0.0.1-SNAPSHOT")
-	updateBunde(ssh,"de.ebus.emarket/api/0.0.1-SNAPSHOT")
-	updateBunde(ssh,"de.ebus.emarket/server/0.0.1-SNAPSHOT")
-	updateBunde(ssh,"de.ebus.emarket/frontend/0.0.1-SNAPSHOT")
+	for bundle in bundles:
+		updateBunde(ssh,bundle)
 
 except:
 	log ('connection refused - maybe servicemix not running','>>>') 
