@@ -54,7 +54,7 @@ public abstract class DAO implements IDAO {
 	@Override
 	public void deleteAll() {
 		final EntityManager em = getEntityManager();
-		final String jpqlString = "DELETE FROM " + getClass().getName() + " c ";
+		final String jpqlString = "DELETE FROM " + getEntityClass().getName() + " c ";
 		final Query q = em.createQuery(jpqlString);
 		q.executeUpdate();
 	}

@@ -14,6 +14,14 @@ public class SystemUser extends AEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Company company;
 
+	public SystemUser(){}
+	
+	public SystemUser(String username, String password, Company company){
+		setUsername(username);
+		setPassword(password);
+		setCompany(company);
+	}
+	
 	public String getUsername() {
 		return username;
 	}
