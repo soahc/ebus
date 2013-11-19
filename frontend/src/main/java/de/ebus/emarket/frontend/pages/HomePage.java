@@ -58,6 +58,7 @@ public class HomePage extends ExtendedWebPage implements AuthenticatedWebPage {
 				break;
 			}
 			
+			
 			contentPanel.setOutputMarkupId(true);
 			homepage.get("contentPanel").replaceWith(contentPanel);
 			target.add(homepage);
