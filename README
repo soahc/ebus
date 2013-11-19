@@ -61,4 +61,6 @@ install -s mvn:de.ebus.emarket/api/0.0.1-SNAPSHOT
 install -s mvn:de.ebus.emarket/server/0.0.1-SNAPSHOT
 install -s mvn:de.ebus.emarket/frontend/0.0.1-SNAPSHOT
 
-D) open 'http://http://localhost:8181/frontend'
+//-----------------------------------------
+
+D) open 'http://localhost:8181'
