@@ -10,30 +10,27 @@ A) Prerequirements:
 	- copy to c:/apache-maven-3.1.1
 	- add bin/ directory to PATH-Variable
 
-3. Download Apache ServiceMix 4.5.3 for Windows 
-from http://servicemix.apache.org/downloads.html
-	- copy to hd: /opt/apache-servicemix
-	- or c:/apache-servicemix
+3. Download Apache ServiceMix 4.5.3 
 
-4. On Windows download Putty from http://www.putty.org/
-	- copy it to where ever you want
-	- make a link to target putty.exe -ssh smx@localhost -P 8101 -pw smx
-
-5. Download and Install latest postgresql
+4. Download and Install latest postgresql
 	- set password of user postgre to smx
 	- create database 'iams'
 	
-6. Create zip-UploadFolder
+5. Create zip-UploadFolder
 	- C:\data\emarket\ on Windows
 	- /data/emarket/ on Unix
+
+---
+
+On Windows download Putty 
+	- make a link to target putty.exe -ssh smx@localhost -P 8101 -pw smx
 
 //-----------------------------------------
 
 B) Run and adjust ServiceMix
 
-1. run c:\apache-servicemix\bin\start.ba
-2. run link to putty to get ssh connection to servicemix
-3. inside of servicemix-console run the following commands:
+1. run servicmix for /bin/servicemix
+2. inside of servicemix-console run the following commands:
 
 features:addurl mvn:org.ops4j.pax.wicket/features/2.1.1/xml/features
 features:addurl mvn:org.ops4j.pax.wicket.samples/features/2.1.1/xml/features
@@ -56,10 +53,18 @@ osgi:install -s mvn:it.cnr.isti.domoware/org.postgresql.jdbc4/8.3-603
 
 C) install Project-Bundles
 
+option a:
+
+in ebus root folder run 'mvn install'
+
+in servicemix-console
 install -s mvn:de.ebus.emarket/persistence/0.0.1-SNAPSHOT
 install -s mvn:de.ebus.emarket/api/0.0.1-SNAPSHOT
 install -s mvn:de.ebus.emarket/server/0.0.1-SNAPSHOT
 install -s mvn:de.ebus.emarket/frontend/0.0.1-SNAPSHOT
+
+option b:
+in ebus root folder run 'python buildAndUpdate.py'
 
 //-----------------------------------------
 
