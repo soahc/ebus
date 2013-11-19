@@ -1,4 +1,5 @@
 *.log
+*.jar
 .lock
 .history
 .projects

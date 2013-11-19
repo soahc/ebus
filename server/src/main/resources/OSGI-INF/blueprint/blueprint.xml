@@ -4,19 +4,33 @@
 	
 	<bean id="systemUserDAOBean" class="de.ebus.emarket.server.daos.SystemUserDAO">
 		<tx:transaction method="*" value="Required" /> 
-        <jpa:context property="entityManager" unitname="emarket-pu" />
+        <jpa:context property="entityManager" unitname="iams-pu" />
+	</bean>
+	
+	<bean id="companyDAOBean" class="de.ebus.emarket.server.daos.CompanyDAO">
+		<tx:transaction method="*" value="Required" /> 
+        <jpa:context property="entityManager" unitname="iams-pu" />
+	</bean>
+	
+	<bean id="productDAOBean" class="de.ebus.emarket.server.daos.ProductDAO">
+		<tx:transaction method="*" value="Required" /> 
+        <jpa:context property="entityManager" unitname="iams-pu" />
 	</bean>
 
 	<bean id="daoProviderService" class="de.ebus.emarket.server.DAOProvider">
      	 <property name="systemUserDAO" ref="systemUserDAOBean" /> 
+     	 <property name="companyDAO" ref="companyDAOBean" /> 
+     	 <property name="productDAO" ref="productDAOBean" /> 
     </bean>
         
     <service ref="daoProviderService" interface="de.ebus.emarket.api.IDAOProvider" />
        
-    <!-- DataSource -->
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+<!-- DataSource -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+        destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://localhost/emarket" />
+        <property name="url"
+            value="jdbc:postgresql://localhost/iams" />
         <property name="username" value="postgres" />
         <property name="password" value="smx" />
     </bean>
@@ -24,8 +38,8 @@
     <!-- Expose DataSource as JNDI reference -->
     <service id="DS" ref="dataSource" interface="javax.sql.DataSource">
         <service-properties>
-            <entry key="osgi.jndi.service.name" value="jdbc/emarket" />
+            <entry key="osgi.jndi.service.name" value="jdbc/iams" />
         </service-properties>
-    </service>   
+    </service> 
     
 </blueprint>

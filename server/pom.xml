@@ -32,7 +32,9 @@
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Meta-Persistence>META-INF/persistence.xml</Meta-Persistence>
-						<DynamicImport-Package>*</DynamicImport-Package>
+						<Import-Package>
+							*
+						</Import-Package>
 					</instructions>
 				</configuration>
 			</plugin>

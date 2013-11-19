@@ -9,11 +9,14 @@ import javax.persistence.Query;
 import de.ebus.emarket.api.IDAO;
 import de.ebus.emarket.persistence.entities.AEntity;
 
-public class DAO implements IDAO {
+public abstract class DAO implements IDAO {
 
 	static Logger logger = Logger.getLogger(DAO.class.getName());
-
 	private EntityManager entityManager;
+	
+	@Override
+	public abstract Class<? extends AEntity> getEntityClass();
+	
 	
 	/* (non-Javadoc)
 	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#setEntityManager(javax.persistence.EntityManager)
@@ -49,9 +52,9 @@ public class DAO implements IDAO {
 	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#deleteAll(java.lang.Class)
 	 */
 	@Override
-	public void deleteAll(final Class<? extends AEntity> clazz) {
+	public void deleteAll() {
 		final EntityManager em = getEntityManager();
-		final String jpqlString = "DELETE FROM " + clazz.getName() + " c ";
+		final String jpqlString = "DELETE FROM " + getClass().getName() + " c ";
 		final Query q = em.createQuery(jpqlString);
 		q.executeUpdate();
 	}
@@ -62,19 +65,17 @@ public class DAO implements IDAO {
 	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#read(java.lang.Class, long)
 	 */
 	@Override
-	public <T extends AEntity> T read(final Class<? extends T> clazz,
-			final long id) {
-		return getEntityManager().find(clazz, id);
+	public AEntity read(final long id) {
+		return getEntityManager().find(getEntityClass(), id);
 	}
 
 	/* (non-Javadoc)
 	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#readAll(java.lang.Class, boolean)
 	 */
 	@Override
-	public <T extends AEntity> List<T> readAll(Class<? extends T> clazz,
-			boolean alsoDeleted) {
+	public <T extends AEntity> List<T> readAll(boolean alsoDeleted) {
 		final String constr = (!alsoDeleted) ? "WHERE c.removed = FALSE" : "";
-		return readByJPQL("SELECT c FROM " + clazz.getName() + " c " + constr);
+		return readByJPQL("SELECT c FROM " + getClass().getName() + " c " + constr);
 	}
 
 	/* (non-Javadoc)
@@ -107,5 +108,9 @@ public class DAO implements IDAO {
 	public <T extends AEntity> T update(final T entity) {
 		return getEntityManager().merge(entity);
 	}
+
+	
+
+	
 }
 
