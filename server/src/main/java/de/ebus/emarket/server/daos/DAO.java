@@ -75,7 +75,7 @@ public abstract class DAO implements IDAO {
 	@Override
 	public <T extends AEntity> List<T> readAll(boolean alsoDeleted) {
 		final String constr = (!alsoDeleted) ? "WHERE c.removed = FALSE" : "";
-		return readByJPQL("SELECT c FROM " + getClass().getName() + " c " + constr);
+		return readByJPQL("SELECT c FROM " + getEntityClass().getName() + " c " + constr);
 	}
 
 	/* (non-Javadoc)

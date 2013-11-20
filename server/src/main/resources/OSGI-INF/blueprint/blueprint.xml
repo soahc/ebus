@@ -25,12 +25,11 @@
         
     <service ref="daoProviderService" interface="de.ebus.emarket.api.IDAOProvider" />
        
-<!-- DataSource -->
+	<!-- DataSource -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
         destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url"
-            value="jdbc:postgresql://localhost/iams" />
+        <property name="url" value="jdbc:postgresql://localhost/iams" />
         <property name="username" value="postgres" />
         <property name="password" value="smx" />
     </bean>

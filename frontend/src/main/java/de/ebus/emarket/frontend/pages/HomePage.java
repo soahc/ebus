@@ -11,7 +11,7 @@ import de.ebus.emarket.api.ICompanyDAO;
 import de.ebus.emarket.frontend.ServiceProvider;
 import de.ebus.emarket.frontend.auth.AuthenticatedWebPage;
 import de.ebus.emarket.frontend.pages.components.FileUploadForm;
-import de.ebus.emarket.frontend.pages.panel.InventoryPanel;
+import de.ebus.emarket.frontend.pages.panel.ProductsPanel;
 import de.ebus.emarket.frontend.pages.panel.UploadPanel;
 
 
@@ -28,7 +28,7 @@ public class HomePage extends ExtendedWebPage implements AuthenticatedWebPage {
 			add(new NavigationLink(navtype.toString()+"_2"));
 		}
 		
-		add(new InventoryPanel("contentPanel"));
+		add(new ProductsPanel("contentPanel"));
         add(new LogoutLink("logout"));
     }
 	
@@ -47,14 +47,14 @@ public class HomePage extends ExtendedWebPage implements AuthenticatedWebPage {
 			String componentId = getId();
 			switch (Navtype.valueOf(componentId.substring(0, componentId.indexOf('_')))) {
 			case productsNavLink:
-				contentPanel = new InventoryPanel("contentPanel");
+				contentPanel = new ProductsPanel("contentPanel");
 				break;
 			case dbupdateNavLink:
 				contentPanel = new UploadPanel("contentPanel");
 				break;
 
 			default:
-				contentPanel = new InventoryPanel("contentPanel");
+				contentPanel = new ProductsPanel("contentPanel");
 				break;
 			}
 			

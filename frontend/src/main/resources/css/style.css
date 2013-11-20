@@ -47,3 +47,64 @@ a:hover	{color:#225799; text-decoration:none;}
 /* End hide from IE-mac */
 .feedbackPanelINFO {color: green;}
 .feedbackPanelERROR {color: red;}
+
+/* -------------- PRODUCTS ---------------*/
+
+.productUl {
+        margin: 0;
+}
+
+li.productitem:hover {
+        background: rgba(166, 206, 210, 0.1);
+}
+
+.product {
+        width: 450px;
+        border: 1px solid rgba(34, 88, 153, .2);
+        margin-bottom: 10px;
+        clear: both;
+}
+
+.productdescwrapper {
+        padding: 0 10px 10px 160px;
+        height: 136px;
+        position: relative;
+}
+
+.productimage {
+        float: left;
+        margin: 8px;
+}
+
+.price {
+        font-size: 25px;
+        font-weight: 120;
+        text-align: right;
+        position: absolute;
+        bottom: 48px;
+        right: 5px;
+}
+
+a.buttonstock {
+        cursor: pointer;
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background: url(../images/cartsmaller.png) 7px 12px no-repeat;
+        background-color: #225799;
+        font-family: Tahoma, Geneva, sans-serif, sans-serif;
+        /*border-bottom: 2px solid #FF6761;*/
+        color: #000;
+        padding: 10px 15px 10px 15px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        font-
+}
+
+a.buttonstock:hover {
+        padding: 10px 15px 10px 31px;
+        background: url(../images/cartsmaller.png) 7px 12px no-repeat;
+        background-color: #3C8DCB;
+        color: #002E40;
+}

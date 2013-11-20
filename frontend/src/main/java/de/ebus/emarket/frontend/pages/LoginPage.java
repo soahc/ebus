@@ -83,6 +83,8 @@ public class LoginPage extends ExtendedWebPage {
 			Company company = companyDAO.create(new Company("Die Firma"));
 			systemUserDAO.create(new SystemUser("Test","test",company));
 			productDAO.create(new Product("SN00001", "HD WD20010Cavier", new BigDecimal("120.49"), company));
+			productDAO.create(new Product("SN00002", "SSD 840 Series", new BigDecimal("242.28"), company));
+			productDAO.create(new Product("SN00003", "HD NPQS217 H3", new BigDecimal("220.99"), company));
 			
 			System.out.println("\nDataBase reseted");
 		}
