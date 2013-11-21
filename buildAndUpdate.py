@@ -50,6 +50,8 @@ if not os.path.isdir(deployPath):
 	print 'cant find servicemix on '+smxPath
 	quit()
 
+log ('* start deployment')
+
 for pathentry in os.walk(deployPath, False):
 	for file in pathentry[2]:
 		path = os.path.join(pathentry[0], file)
@@ -59,7 +61,7 @@ for artefect in bundles:
 	jarName = artefect.getJar()
 	fileSrc = artefect.artifactId+'/target/'+jarName
 	fileDst = deployPath+jarName
-	log ("* deploy "+artefect.getJar())
+	log ("- deploy "+artefect.getJar())
 	shutil.copy(fileSrc, fileDst)
 	
 log ('deployment successfull')
