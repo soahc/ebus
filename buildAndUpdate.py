@@ -3,7 +3,7 @@ import subprocess
 import os 
 import sys
 import shutil
-from time import *
+import time
 
 class Artefect:
 	def __init__(self, groupId, artifactId, version):
@@ -12,7 +12,6 @@ class Artefect:
 		self.version = version
 	def getJar(self):
 		return self.artifactId+"-"+self.version+".jar"
-
 
 bundles = [
 Artefect("de.ebus.emarket","persistence","0.0.1-SNAPSHOT"),
@@ -24,7 +23,7 @@ Artefect("de.ebus.emarket","frontend","0.0.1-SNAPSHOT"),
 # -----------------------------------------------------
 
 def log(txt,init="---"):
-    print strftime(init+" (%H:%M:%S) ", localtime())+txt
+    print time.strftime(init+" (%H:%M:%S) ", time.localtime())+txt
 
 if sys.version_info < (2, 7):
 	log ('Python Version must be >= 2.7')
@@ -56,6 +55,12 @@ for pathentry in os.walk(deployPath, False):
 	for file in pathentry[2]:
 		path = os.path.join(pathentry[0], file)
 		os.unlink(path)
+
+if len(sys.argv)>1:
+	if sys.argv[1]=='installFeatures':
+		log ("- deploy feature.xml")
+		shutil.copy("features.xml", deployPath+"features.xml" )
+		time.sleep(2)
 
 for artefect in bundles:
 	jarName = artefect.getJar()
