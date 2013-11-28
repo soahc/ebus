@@ -9,6 +9,9 @@ import grp
 import pwd
 import urllib2
 import tarfile
+import platform
+import webbrowser
+
 
 # -----------------------------------------------------
 
@@ -56,6 +59,8 @@ def downloadFile(url,path):
 	f.close()	
 	return filepath
 
+splitext = os.path.splitext
+
 # -----------------------------------------------------
 
 if sys.version_info < (2, 7):
@@ -65,6 +70,7 @@ log ('BuildScript v1.0','***')
 
 user = getpass.getuser()
 isPosix = (os.name == 'posix')
+dist=platform.dist()[0]
 smxURL = 'http://psg.mtu.edu/pub/apache/servicemix/servicemix-4/4.5.3/apache-servicemix-4.5.3.tar.gz' if (isPosix) else 'http://apache.mirrors.hoobly.com/servicemix/servicemix-4/4.5.3/apache-servicemix-4.5.3.zip'
 optPath = '/opt2/' if (isPosix) else 'c:/'
 smxPath = optPath+'apache-servicemix/'
@@ -91,8 +97,15 @@ if len(sys.argv)>1:
 			tar = tarfile.open(archive)
 			tar.extractall(optPath)
 			tar.close()
+			os.rename(splitext(splitext(archive)[0])[0],smxPath)
+			os.remove(archive)
 
-quit()
+			if (dist == 'Ubuntu'):
+				subprocess.Popen(["gnome-terminal --command='"+smxPath+"bin/servicemix"+"'"], shell=True)
+
+		log ("- deploy feature.xml")
+		shutil.copy("features.xml", deployPath+"features.xml" )
+		time.sleep(2)
 
 # -----------------------------------------------------
 
@@ -109,10 +122,6 @@ log ('build successfull')
 
 # -----------------------------------------------------
 
-isPosix = (os.name == 'posix')
-smxPath = '/opt/apache-servicemix/' if (isPosix) else 'c:/apache-servicemix/';
-deployPath = smxPath+'deploy/'
-
 if not os.path.isdir(deployPath):
 	print ('cant find servicemix on '+smxPath)
 	quit()
@@ -124,12 +133,6 @@ for pathentry in os.walk(deployPath, False):
 		path = os.path.join(pathentry[0], file)
 		os.unlink(path)
 
-if len(sys.argv)>1:
-	if sys.argv[1]=='installFeatures':
-		log ("- deploy feature.xml")
-		shutil.copy("features.xml", deployPath+"features.xml" )
-		time.sleep(2)
-
 for artefect in bundles:
 	jarName = artefect.getJar()
 	fileSrc = artefect.artifactId+'/target/'+jarName
@@ -138,3 +141,5 @@ for artefect in bundles:
 	shutil.copy(fileSrc, fileDst)
 	
 log ('deployment successfull')
+time.sleep(5)
+webbrowser.open("locelhost:8181")
