@@ -1,4 +1,4 @@
-#python
+#!/usr/bin/python
 import subprocess
 import os 
 import sys
@@ -11,6 +11,24 @@ import urllib2
 import tarfile
 import platform
 import webbrowser
+
+import socket
+
+
+'''TCP_IP = '127.0.0.1'
+TCP_PORT = 5432
+BUFFER_SIZE = 1024
+MESSAGE = "Hello, World!"
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((TCP_IP, TCP_PORT))
+s.send(MESSAGE)
+data = s.recv(BUFFER_SIZE)
+s.close()
+
+print "received data:", len(data)
+
+quit()'''
 
 
 # -----------------------------------------------------
@@ -71,8 +89,11 @@ log ('BuildScript v1.0','***')
 user = getpass.getuser()
 isPosix = (os.name == 'posix')
 dist=platform.dist()[0]
-smxURL = 'http://psg.mtu.edu/pub/apache/servicemix/servicemix-4/4.5.3/apache-servicemix-4.5.3.tar.gz' if (isPosix) else 'http://apache.mirrors.hoobly.com/servicemix/servicemix-4/4.5.3/apache-servicemix-4.5.3.zip'
+plattform=platform.platform()
+
+smxURL = 'http://apache.imsam.info/servicemix/servicemix-4/4.5.3/apache-servicemix-full-4.5.3.tar.gz'
 optPath = '/opt2/' if (isPosix) else 'c:/'
+extractPath = optPath+'/apache-servicemix-4.5.3/'
 smxPath = optPath+'apache-servicemix/'
 deployPath = smxPath+'deploy/'
 
@@ -97,11 +118,15 @@ if len(sys.argv)>1:
 			tar = tarfile.open(archive)
 			tar.extractall(optPath)
 			tar.close()
-			os.rename(splitext(splitext(archive)[0])[0],smxPath)
+
+			os.rename(extractPath,smxPath)
 			os.remove(archive)
 
-			if (dist == 'Ubuntu'):
-				subprocess.Popen(["gnome-terminal --command='"+smxPath+"bin/servicemix"+"'"], shell=True)
+		if (dist == 'Ubuntu'):
+			subprocess.Popen(["gnome-terminal --command='"+smxPath+"bin/servicemix"+"'"], shell=True)
+
+		if 'Darwin' in plattform:
+			subprocess.call(["open" ,"-a","Terminal",smxPath+"bin/servicemix"]);
 
 		log ("- deploy feature.xml")
 		shutil.copy("features.xml", deployPath+"features.xml" )
@@ -140,6 +165,7 @@ for artefect in bundles:
 	log ("- deploy "+artefect.getJar())
 	shutil.copy(fileSrc, fileDst)
 	
-log ('deployment successfull')
-time.sleep(5)
-webbrowser.open("locelhost:8181")
+log ('* deployment successfull')
+log ('* open browser in 10 sec')
+time.sleep(10)
+webbrowser.open("http://locelhost:8181")
