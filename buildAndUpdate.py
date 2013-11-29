@@ -4,31 +4,18 @@ import os
 import sys
 import shutil
 import time
+import thread 
 import getpass
-import grp
-import pwd
 import urllib2
 import tarfile
+import zipfile
 import platform
 import webbrowser
 import socket
-
-
-'''TCP_IP = '127.0.0.1'
-TCP_PORT = 5432
-BUFFER_SIZE = 1024
-MESSAGE = "Hello, World!"
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((TCP_IP, TCP_PORT))
-s.send(MESSAGE)
-data = s.recv(BUFFER_SIZE)
-s.close()
-
-print "received data:", len(data)
-
-quit()'''
-
+isPosix = (os.name == 'posix')
+if (isPosix):
+	import grp
+	import pwd
 
 # -----------------------------------------------------
 
@@ -51,6 +38,18 @@ Artefect("de.ebus.emarket","frontend","0.0.1-SNAPSHOT"),
 
 def log(txt,init="---"):
     print(time.strftime(init+" (%H:%M:%S) ", time.localtime())+txt)
+
+def progressSleep(seconds):
+	for i in range(seconds):
+		sys.stdout.write("\r%d%%" %((100/seconds)*i))
+		sys.stdout.flush()
+		time.sleep(1)
+	sys.stdout.write("\r%d%%" %100)
+	print("")
+
+def unzip(source_filename, dest_dir):
+    with zipfile.ZipFile(source_filename) as zf:
+        zf.extractall(dest_dir)
 
 def downloadFile(url,path):
 	file_name = url.split('/')[-1]
@@ -75,15 +74,22 @@ def downloadFile(url,path):
 	f.close()	
 	return filepath
 
+def startWindowsSMX(smxPath):
+	os.system("start cmd /c "+smxPath+"bin/servicemix.bat")
+
 splitext = os.path.splitext
 
-def progressSleep(seconds):
-	for i in range(seconds):
-		sys.stdout.write("\r%d%%" %((100/seconds)*i))
-		sys.stdout.flush()
-		time.sleep(1)
-	sys.stdout.write("\r%d%%" %100)
-	print("")
+# -----------------------------------------------------
+
+user = getpass.getuser()
+dist=platform.dist()[0]
+plattform=platform.platform()
+smxURL = 'http://www.eng.lsu.edu/mirrors/apache/servicemix/servicemix-4/4.5.3/apache-servicemix-full-4.5.3.tar.gz' if (isPosix) else 'http://mirror.nexcess.net/apache/servicemix/servicemix-4/4.5.3/apache-servicemix-full-4.5.3.zip'
+optPath = '/opt2/' if (isPosix) else 'c:/opt2/'
+extractPath = optPath+'/apache-servicemix-4.5.3/'
+smxPath = optPath+'apache-servicemix/'
+deployPath = smxPath+'deploy/'
+installing = False
 
 # -----------------------------------------------------
 
@@ -92,49 +98,48 @@ if sys.version_info < (2, 7):
 
 log ('BuildScript v1.0','***')
 
-user = getpass.getuser()
-isPosix = (os.name == 'posix')
-dist=platform.dist()[0]
-plattform=platform.platform()
-
-smxURL = 'http://www.eng.lsu.edu/mirrors/apache/servicemix/servicemix-4/4.5.3/apache-servicemix-full-4.5.3.tar.gz'
-optPath = '/opt2/' if (isPosix) else 'c:/'
-extractPath = optPath+'/apache-servicemix-4.5.3/'
-smxPath = optPath+'apache-servicemix/'
-deployPath = smxPath+'deploy/'
-installing = False
-
 if len(sys.argv)>1:
 	if sys.argv[1]=='installFeatures':
 		
 		installing = True
 
 		if not os.path.isdir(optPath):
-			if isPosix:
-				log ('* create folder '+optPath)
+			log ('* create folder '+optPath)
+			if (isPosix):
 				subprocess.call(['sudo', 'mkdir', optPath])
+			else:
+				os.makedirs(optPath)
 
-		stat_info = os.stat(optPath)
+		if isPosix:
+			stat_info = os.stat(optPath)
 
-		if not pwd.getpwuid(stat_info.st_uid)[0] == user:
-			if isPosix:
-				subprocess.call(['sudo', 'chown', user, optPath])
+			if not pwd.getpwuid(stat_info.st_uid)[0] == user:
+				if isPosix:
+					subprocess.call(['sudo', 'chown', user, optPath])
 
 		if not os.path.isdir(smxPath):
 			log ('* download servicemix archive')
-			archive = downloadFile(smxURL,optPath) #optPath+'apache-servicemix-full-4.5.3.tar.gz' #
+			archive = downloadFile(smxURL,optPath) #optPath+'apache-servicemix-full-4.5.3.zip' 
 			log ('* extract servicemix archive')
-			tar = tarfile.open(archive)
-			tar.extractall(optPath)
-			tar.close()
+			if isPosix:
+				tar = tarfile.open(archive)
+				tar.extractall(optPath)
+				tar.close()
+			else:
+				unzip(archive,optPath)
+
 			os.rename(extractPath,smxPath)
 			os.remove(archive)
 
-		if (dist == 'Ubuntu'):
-			subprocess.Popen(["gnome-terminal --command='"+smxPath+"bin/servicemix"+"'"], shell=True)
+		log ('* run servicemix')
+		if isPosix: 
+			if (dist == 'Ubuntu'):
+				subprocess.Popen(["gnome-terminal --command='"+smxPath+"bin/servicemix"+"'"], shell=True)
 
-		if 'Darwin' in plattform:
-			subprocess.call(["open" ,"-a","Terminal",smxPath+"bin/servicemix"]);
+			if 'Darwin' in plattform:
+				subprocess.call(["open" ,"-a","Terminal",smxPath+"bin/servicemix"]);
+		else:
+			thread.start_new_thread(startWindowsSMX,(smxPath,))
 
 		progressSleep(5)
 		log ("- deploy feature.xml")
@@ -142,7 +147,6 @@ if len(sys.argv)>1:
 		progressSleep(30)
 
 # -----------------------------------------------------
-
 
 log ('* run mvn build')
 
@@ -177,6 +181,23 @@ for artefect in bundles:
 	time.sleep(1)
 	
 log ('* deployment successfull')
-log ('* prepere to open browser')
+log ('* prepare to open browser')
 progressSleep(10)
 webbrowser.open("http://localhost:8181")
+
+# -----------------------------------------------------
+
+'''TCP_IP = '127.0.0.1'
+TCP_PORT = 5432
+BUFFER_SIZE = 1024
+MESSAGE = "Hello, World!"
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((TCP_IP, TCP_PORT))
+s.send(MESSAGE)
+data = s.recv(BUFFER_SIZE)
+s.close()
+
+print "received data:", len(data)
+
+quit()'''
