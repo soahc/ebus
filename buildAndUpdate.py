@@ -16,7 +16,7 @@ isPosix = (os.name == 'posix')
 if (isPosix):
 	import grp
 	import pwd
-
+	
 # -----------------------------------------------------
 
 class Artefect:
@@ -181,23 +181,17 @@ for artefect in bundles:
 	time.sleep(1)
 	
 log ('* deployment successfull')
+
+try:
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.connect(("127.0.0.1", 5432))
+except socket.error as e:
+	log ("cant connect postgres sql on localhost:5432","!!!")
+
 log ('* prepare to open browser')
 progressSleep(10)
 webbrowser.open("http://localhost:8181")
 
 # -----------------------------------------------------
 
-'''TCP_IP = '127.0.0.1'
-TCP_PORT = 5432
-BUFFER_SIZE = 1024
-MESSAGE = "Hello, World!"
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((TCP_IP, TCP_PORT))
-s.send(MESSAGE)
-data = s.recv(BUFFER_SIZE)
-s.close()
-
-print "received data:", len(data)
-
-quit()'''
