@@ -11,7 +11,6 @@ import urllib2
 import tarfile
 import platform
 import webbrowser
-
 import socket
 
 
@@ -61,7 +60,6 @@ def downloadFile(url,path):
 	meta = u.info()
 	file_size = int(meta.getheaders("Content-Length")[0])
 	print "Downloading: %s Bytes: %s" % (filepath, file_size)
-	#cdos.system('cls')
 	file_size_dl = 0
 	block_sz = 8192
 	while True:
@@ -79,6 +77,14 @@ def downloadFile(url,path):
 
 splitext = os.path.splitext
 
+def progressSleep(seconds):
+	for i in range(seconds):
+		sys.stdout.write("\r%d%%" %((100/seconds)*i))
+		sys.stdout.flush()
+		time.sleep(1)
+	sys.stdout.write("\r%d%%" %100)
+	print("")
+
 # -----------------------------------------------------
 
 if sys.version_info < (2, 7):
@@ -91,15 +97,18 @@ isPosix = (os.name == 'posix')
 dist=platform.dist()[0]
 plattform=platform.platform()
 
-smxURL = 'http://apache.imsam.info/servicemix/servicemix-4/4.5.3/apache-servicemix-full-4.5.3.tar.gz'
+smxURL = 'http://www.eng.lsu.edu/mirrors/apache/servicemix/servicemix-4/4.5.3/apache-servicemix-full-4.5.3.tar.gz'
 optPath = '/opt2/' if (isPosix) else 'c:/'
 extractPath = optPath+'/apache-servicemix-4.5.3/'
 smxPath = optPath+'apache-servicemix/'
 deployPath = smxPath+'deploy/'
+installing = False
 
 if len(sys.argv)>1:
 	if sys.argv[1]=='installFeatures':
 		
+		installing = True
+
 		if not os.path.isdir(optPath):
 			if isPosix:
 				log ('* create folder '+optPath)
@@ -113,12 +122,11 @@ if len(sys.argv)>1:
 
 		if not os.path.isdir(smxPath):
 			log ('* download servicemix archive')
-			archive = downloadFile(smxURL,optPath)
+			archive = downloadFile(smxURL,optPath) #optPath+'apache-servicemix-full-4.5.3.tar.gz' #
 			log ('* extract servicemix archive')
 			tar = tarfile.open(archive)
 			tar.extractall(optPath)
 			tar.close()
-
 			os.rename(extractPath,smxPath)
 			os.remove(archive)
 
@@ -128,9 +136,10 @@ if len(sys.argv)>1:
 		if 'Darwin' in plattform:
 			subprocess.call(["open" ,"-a","Terminal",smxPath+"bin/servicemix"]);
 
+		progressSleep(5)
 		log ("- deploy feature.xml")
 		shutil.copy("features.xml", deployPath+"features.xml" )
-		time.sleep(2)
+		progressSleep(30)
 
 # -----------------------------------------------------
 
@@ -153,10 +162,11 @@ if not os.path.isdir(deployPath):
 
 log ('* start deployment')
 
-for pathentry in os.walk(deployPath, False):
-	for file in pathentry[2]:
-		path = os.path.join(pathentry[0], file)
-		os.unlink(path)
+if not installing:
+	for pathentry in os.walk(deployPath, False):
+		for file in pathentry[2]:
+			path = os.path.join(pathentry[0], file)
+			os.unlink(path)
 
 for artefect in bundles:
 	jarName = artefect.getJar()
@@ -164,8 +174,9 @@ for artefect in bundles:
 	fileDst = deployPath+jarName
 	log ("- deploy "+artefect.getJar())
 	shutil.copy(fileSrc, fileDst)
+	time.sleep(1)
 	
 log ('* deployment successfull')
-log ('* open browser in 10 sec')
-time.sleep(10)
-webbrowser.open("http://locelhost:8181")
+log ('* prepere to open browser')
+progressSleep(10)
+webbrowser.open("http://localhost:8181")
