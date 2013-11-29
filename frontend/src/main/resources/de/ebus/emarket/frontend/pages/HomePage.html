@@ -1,27 +1,51 @@
-<html
-	xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>BlaBlub Title</title>
-<style>
-.feedbackPanelINFO {
-	color: green;
-}
-.feedbackPanelERROR {
-	color: red;
-}
-</style>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>THE eMARKET</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<meta name="Author" content="Tjobbe Andrews, SiteCreative.net" />
 </head>
 
 <body>
-	<h1>Upload Zip File</h1>
+	<div id="container">
+		<div id="holder" class="clearfix">
+			<div id="logo">
+				<h1>THE eMARKET</h1>
+			</div>
+			<span id="navigationr"><a wicket:id="logout">Logout&nbsp;&nbsp;<img src="images/logout.jpg" width=15></a></span>
+			<div id="navigation">
 
-	<div wicket:id="feedback"></div>
-	<form wicket:id="form">
-		<p>
-			<label>Select file :</label> <input wicket:id="fileUpload" size="40"
-				type="file" /> <input type="submit" value="Upload" />
-		</p>
-	</form>
-	<a wicket:id="logout">Logout</a>
+				<ul>
+					<li><a href="#" wicket:id="productsNavLink_1">PRODUCTS</a></li>
+					<li><a href="#">INVENTORY</a></li>
+					<li><a href="#" wicket:id="dbupdateNavLink_1">DATABASE UPDATE</a></li>
+					<li><a href="#">LOG</a></li>
+				</ul>
+
+			</div>
+			<div id="header"></div>
+			<span wicket:id="contentPanel"></span>
+			<div id="news">
+                                <div class="newsItem">
+                                        <h1>Copyright</h1>
+                                        <p>Please be so kind as to leave the copyright message in the footer intact, if you must remove it, I would still appreciate a link to my site.</p>
+                                </div>
+                                <div class="newsItem">
+                                        <h1>Other info</h1>
+                                        <p>You are free to use this design for anythign you wish. I do ask that the &quot;design by sitecreative&quot; stays in the footer with a link back to my site. Please don't sell it or re-distribute it. </p>
+                                </div>
+                        </div>
+		</div>
+		<div id="footer">
+			<span id="copyright">Ein Project von <a>Philipp Liepert</a> und <a>Markus Fabarius</a></span>
+			<ul>
+				<li><a href="#" wicket:id="productsNavLink_2">Products</a></li>
+				<li><a href="#" >Inventory</a></li>
+				<li><a href="#" wicket:id="dbupdateNavLink_2">Database Update</a></li>
+				<li><a href="#">Log</a></li>
+			</ul>
+		</div>
+	</div>
 </body>
 </html>

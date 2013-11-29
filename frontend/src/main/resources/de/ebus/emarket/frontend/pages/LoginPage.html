@@ -1,20 +1,58 @@
-<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" >
-    <head>  
-        <title>Login Page</title>
-    </head>
-    <body>
-    	<form wicket:id = "signInForm">
-	        <P> Login </P>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>THE eMARKET</title>
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<meta name="Author" content="Tjobbe Andrews, SiteCreative.net" />
+</head>
+
+<body>
+<div id="container">
+	<div id="holder" class="clearfix">
+		<div id="logo">
+			<h1>THE eMARKET</h1>
+	  </div>
+		<div id="navigation">
+			<ul>
+				<li><a href="#">LOGIN</a></li>
+				<li><a href="#">ABOUT US</a></li>
+			</ul>
+	    </div>
+		<div id="header"></div>
+		<div id="content">
+			<h1>Login</h1>
+			<p><form wicket:id = "signInForm">
 	        <div style="clear: left; float: left;">
-	        	<a>Username: </a><br/>
-	        	<a>Password: </a>
+	        	Username: <br/>
+	        	Password: 
 	        </div>
 	        <div>
 	        	<input wicket:id="username" name="name" type="text"/><br/>
-	        	<input wicket:id="userpassword" name="password" type="password"/>
+	        	<input wicket:id="userpassword" name="password" type="password"/><input type="submit" value="Login"/>
 	        </div>
-			<input type="submit" value="Login"/>
+			
 		</form>
-		<span wicket:id="feedback"></span>
-    </body>
+		<span wicket:id="feedback"></span></p>
+		</div>
+		<div id="news">
+			<!--<div class="newsItem">
+				<h1>Copyright</h1>
+				<p>Please be so kind as to leave the copyright message in the footer intact, if you must remove it, I would still appreciate a link to my site.</p>
+			</div>-->
+			<div class="newsItem">
+				<h1>Info</h1>
+				<p>Hier kommt auf jede Fall noch irgend ein toller Text hin </p>
+			</div> 
+	  </div>
+	</div>
+	<div id="footer">
+		<span id="copyright">Ein Project von <a>Philipp Liepert</a> und <a wicket:id = "resetDBLink">Markus Fabarius</a></span>
+		<ul>
+			<li><a href="#">Login</a></li>
+			<li><a href="#">About Us</a></li>
+		</ul>
+	</div>
+</div>
+</body>
 </html>

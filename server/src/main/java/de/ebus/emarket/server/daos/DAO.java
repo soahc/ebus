@@ -54,7 +54,7 @@ public abstract class DAO implements IDAO {
 	@Override
 	public void deleteAll() {
 		final EntityManager em = getEntityManager();
-		final String jpqlString = "DELETE FROM " + getClass().getName() + " c ";
+		final String jpqlString = "DELETE FROM " + getEntityClass().getName() + " c ";
 		final Query q = em.createQuery(jpqlString);
 		q.executeUpdate();
 	}
@@ -75,7 +75,7 @@ public abstract class DAO implements IDAO {
 	@Override
 	public <T extends AEntity> List<T> readAll(boolean alsoDeleted) {
 		final String constr = (!alsoDeleted) ? "WHERE c.removed = FALSE" : "";
-		return readByJPQL("SELECT c FROM " + getClass().getName() + " c " + constr);
+		return readByJPQL("SELECT c FROM " + getEntityClass().getName() + " c " + constr);
 	}
 
 	/* (non-Javadoc)

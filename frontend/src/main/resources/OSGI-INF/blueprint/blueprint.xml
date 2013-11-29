@@ -10,6 +10,6 @@
 
 	<wicket:application id="applicationId"
 		class="de.ebus.emarket.frontend.WicketApplication" applicationName="blueprint.simple.paxwicket"
-		mountPoint="frontend" />
+		mountPoint="/" />
 
 </blueprint>
