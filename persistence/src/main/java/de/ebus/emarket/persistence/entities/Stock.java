@@ -1,5 +1,8 @@
 package de.ebus.emarket.persistence.entities;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Stock extends AEntity {
 
 	private static final long serialVersionUID = -4829711434009233731L;

@@ -16,11 +16,17 @@
 		<tx:transaction method="*" value="Required" /> 
         <jpa:context property="entityManager" unitname="iams-pu" />
 	</bean>
+	
+	<bean id="stockDAOBean" class="de.ebus.emarket.server.daos.StockDAO">
+		<tx:transaction method="*" value="Required" /> 
+        <jpa:context property="entityManager" unitname="iams-pu" />
+	</bean>
 
 	<bean id="daoProviderService" class="de.ebus.emarket.server.DAOProvider">
      	 <property name="systemUserDAO" ref="systemUserDAOBean" /> 
      	 <property name="companyDAO" ref="companyDAOBean" /> 
      	 <property name="productDAO" ref="productDAOBean" /> 
+     	 <property name="stockDAO" ref="stockDAOBean" /> 
     </bean>
         
     <service ref="daoProviderService" interface="de.ebus.emarket.api.IDAOProvider" />
