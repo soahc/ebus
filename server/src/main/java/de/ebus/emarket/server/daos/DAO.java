@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import de.ebus.emarket.api.IDAO;
 import de.ebus.emarket.persistence.entities.AEntity;
+import de.ebus.emarket.persistence.entities.SystemUser;
 
 public abstract class DAO implements IDAO {
 
@@ -89,6 +91,19 @@ public abstract class DAO implements IDAO {
 		final List<T> list = q.getResultList();
 		return list;
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#readByJPQL(java.lang.String)
+	 */
+	public Object readSingleResultByJPQL(String jpqString){
+		try{
+			final EntityManager em = getEntityManager();
+			final Query q = em.createQuery(jpqString);
+			return q.getSingleResult();
+		}catch(NoResultException e){
+			return null;
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#remove(com.yoc.gaming.publisher_webservice.entities.AEntity)
@@ -107,10 +122,6 @@ public abstract class DAO implements IDAO {
 	@Override
 	public <T extends AEntity> T update(final T entity) {
 		return getEntityManager().merge(entity);
-	}
-
-	
-
-	
+	}	
 }
 

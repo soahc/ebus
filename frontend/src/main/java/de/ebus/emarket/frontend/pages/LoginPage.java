@@ -51,8 +51,7 @@ public class LoginPage extends ExtendedWebPage {
 
 		@Override
 		protected void onSubmit() {
-			if (LoginPage.this.getAuthenticatedSession().authenticate(
-					user.getUsername(), user.getPassword())) {
+			if (LoginPage.this.getAuthenticatedSession().authenticate(user.getUsername(), user.getPassword())) {
 				setResponsePage(new HomePage());
 			} else {
 				error("Wrong login!");

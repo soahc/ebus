@@ -23,9 +23,8 @@ public class SystemUserDAO extends DAO implements ISystemUserDAO {
 	
 	@Override
 	public SystemUser readSystemUser(String username, String password) {
-		final EntityManager em = getEntityManager();
-		final Query q = em.createQuery("select a from SystemUser a where a.username = '"+username+"' and a.password = '"+password+"'");
-		return (SystemUser) q.getSingleResult();
+		Object obj = readSingleResultByJPQL("select a from SystemUser a where a.username = '"+username+"' and a.password = '"+password+"'");
+		return (obj==null)?null:(SystemUser)obj;
 	}
 
 	

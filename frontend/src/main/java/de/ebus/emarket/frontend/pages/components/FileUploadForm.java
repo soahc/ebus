@@ -2,6 +2,7 @@ package de.ebus.emarket.frontend.pages.components;
 
 import java.io.File;
 import java.util.Date;
+import java.util.IllegalFormatException;
 
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
@@ -36,12 +37,15 @@ public class FileUploadForm extends Form<Void> {
 
 		final FileUpload uploadedFile = fileUpload.getFileUpload();
 		if (uploadedFile != null) {
-			//TODO:
-			//checkfiletype up uploadedFile.getContentType()
+			String[] filenameparts = uploadedFile.getClientFileName().split("\\.(?=[^\\.]+$)");
 			
+			if (!(filenameparts[1].toLowerCase().equals("zip"))){
+				error("file extension is not zip");
+				return;
+			}
 			
 			// write to a new file
-			File newFile = new File(getUploadFolder() + fileID + "_" + new Date().getTime() + ".zip");
+			File newFile = new File(getUploadFolder() + filenameparts[0] + "_" + new Date().getTime() + ".zip");
 
 			if (newFile.exists()) {
 				newFile.delete();
@@ -53,7 +57,7 @@ public class FileUploadForm extends Form<Void> {
 
 				info("saved file: " + newFile.getAbsolutePath()); // uploadedFile.getClientFileName());
 			} catch (Exception e) {
-				throw new IllegalStateException("Error");
+				error("error while saving file: "+ e.getMessage());
 			}
 		}
 	}
