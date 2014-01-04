@@ -10,6 +10,9 @@
 		<class>de.ebus.emarket.persistence.entities.Company</class>
 		<class>de.ebus.emarket.persistence.entities.SystemUser</class>
 		<class>de.ebus.emarket.persistence.entities.Product</class>
+		
+		<class>de.ebus.emarket.persistence.entities.Stock</class>
+		<class>de.ebus.emarket.persistence.entities.StockItem</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(Sequences=false)" />

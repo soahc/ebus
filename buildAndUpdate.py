@@ -177,6 +177,7 @@ for artefect in bundles:
 	fileSrc = artefect.artifactId+'/target/'+jarName
 	fileDst = deployPath+jarName
 	log ("- deploy "+artefect.getJar())
+	#log ("-> "+fileSrc + " -> " + fileDst)
 	shutil.copy(fileSrc, fileDst)
 	time.sleep(1)
 	
@@ -188,9 +189,10 @@ try:
 except socket.error as e:
 	log ("cant connect postgres sql on localhost:5432","!!!")
 
-log ('* prepare to open browser')
-progressSleep(10)
-webbrowser.open("http://localhost:8181")
+if installing:
+	log ('* prepare to open browser')
+	progressSleep(10)
+	webbrowser.open("http://localhost:8181")
 
 # -----------------------------------------------------
 
