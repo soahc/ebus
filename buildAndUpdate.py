@@ -118,19 +118,17 @@ if len(sys.argv)>1:
 			if (isPosix):
 				subprocess.call(['sudo', 'mkdir', optPath])
 				subprocess.call(['sudo', 'mkdir', dataPath])
+				stat_info = os.stat(optPath)
+				if not pwd.getpwuid(stat_info.st_uid)[0] == user:
+					subprocess.call(['sudo', 'chown', user, optPath])
+					subprocess.call(['sudo', 'chown', user, dataPath])
+
 			else:
 				os.makedirs(optPath)
 				os.makedirs(dataPath)
 
 			log ('* create folder '+emarketPath)
 			os.makedirs(emarketPath)
-
-		if isPosix:
-			stat_info = os.stat(optPath)
-
-			if not pwd.getpwuid(stat_info.st_uid)[0] == user:
-				if isPosix:
-					subprocess.call(['sudo', 'chown', user, optPath])
 
 		if not os.path.isdir(smxPath):
 			log ('* download servicemix archive')
