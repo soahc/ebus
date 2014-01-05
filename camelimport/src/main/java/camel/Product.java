@@ -12,9 +12,8 @@ public class Product {
 	private String serialNumber;
 	@DataField(pos = 2, required=true)
 	private String name;
-	@DataField(pos = 3, required=true)
-	private float price;
-	//private String price;
+	@DataField(pos = 3, precision = 2, required=true)
+	private BigDecimal price;
 	
 	public String toString(){
 		return serialNumber + ", "+name+", "+ price;

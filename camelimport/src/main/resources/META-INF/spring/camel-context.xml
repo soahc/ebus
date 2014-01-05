@@ -16,7 +16,7 @@
 		<camel:contextScan />
 		<camel:route id="unzipMultipleFiles">
 			<camel:from
-				uri="file:///data/emarket/?delay=30000&amp;noop=true&amp;idempotent=false" />
+				uri="file:///c:/data/emarket/?delay=30000&amp;noop=true&amp;idempotent=false" />
 			<camel:unmarshal ref="zipFileDataFormat" />
 			<camel:split streaming="true">
 				<camel:simple>${body}</camel:simple>
@@ -28,7 +28,7 @@
 
 		<camel:route id="bindy-csv-marhalling-unmarshalling-exmaple"
 			autoStartup="true">
-			<camel:from uri="file:///data/extracted/?noop=true&amp;delay=2000" />
+			<camel:from uri="file:///c:/data/extracted/?noop=true&amp;delay=2000" />
 			<camel:log message="CAMEL BINDY CSV MARSHALLING UNMARSHALLING EXAMPLE"
 				loggingLevel="WARN" />
 			<camel:split streaming="true">
