@@ -15,6 +15,7 @@ public interface IDAO {
 	public abstract <T extends AEntity> T read(long id);
 	public abstract <T extends AEntity> List<T> readAll(boolean alsoDeleted);
 	public abstract <T extends AEntity> List<T> readByJPQL(String jpqString);
+	public abstract Object readSingleResultByJPQL(String jpqString);
 	public abstract void remove(AEntity entity);
 	public abstract void setEntityManager(EntityManager entityManager);
 	public abstract <T extends AEntity> T update(T entity);

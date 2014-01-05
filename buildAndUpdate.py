@@ -86,17 +86,27 @@ dist=platform.dist()[0]
 plattform=platform.platform()
 smxURL = 'http://www.eng.lsu.edu/mirrors/apache/servicemix/servicemix-4/4.5.3/apache-servicemix-full-4.5.3.tar.gz' if (isPosix) else 'http://mirror.nexcess.net/apache/servicemix/servicemix-4/4.5.3/apache-servicemix-full-4.5.3.zip'
 optPath = '/opt2/' if (isPosix) else 'c:/opt2/'
+dataPath = '/data/' if (isPosix) else 'c:/data/'
 extractPath = optPath+'/apache-servicemix-4.5.3/'
+emarketPath = dataPath+'emarket'
 smxPath = optPath+'apache-servicemix/'
 deployPath = smxPath+'deploy/'
 installing = False
 
 # -----------------------------------------------------
 
+print("")
 if sys.version_info < (2, 7):
 	log ('Python Version must be >= 2.7')
+	quit()
 
 log ('BuildScript v1.0','***')
+
+if ((len(sys.argv)==1) or (len(sys.argv)>2)):
+	print("\nparameter: ")
+	print(" installFeatures - downloads servicemix, deploys features, deploys emarket bundles")
+	print(" redeploy        - redeploy emarket bundles")
+	quit()
 
 if len(sys.argv)>1:
 	if sys.argv[1]=='installFeatures':
@@ -107,15 +117,18 @@ if len(sys.argv)>1:
 			log ('* create folder '+optPath)
 			if (isPosix):
 				subprocess.call(['sudo', 'mkdir', optPath])
+				subprocess.call(['sudo', 'mkdir', dataPath])
+				stat_info = os.stat(optPath)
+				if not pwd.getpwuid(stat_info.st_uid)[0] == user:
+					subprocess.call(['sudo', 'chown', user, optPath])
+					subprocess.call(['sudo', 'chown', user, dataPath])
+
 			else:
 				os.makedirs(optPath)
+				os.makedirs(dataPath)
 
-		if isPosix:
-			stat_info = os.stat(optPath)
-
-			if not pwd.getpwuid(stat_info.st_uid)[0] == user:
-				if isPosix:
-					subprocess.call(['sudo', 'chown', user, optPath])
+			log ('* create folder '+emarketPath)
+			os.makedirs(emarketPath)
 
 		if not os.path.isdir(smxPath):
 			log ('* download servicemix archive')
@@ -169,8 +182,9 @@ log ('* start deployment')
 if not installing:
 	for pathentry in os.walk(deployPath, False):
 		for file in pathentry[2]:
-			path = os.path.join(pathentry[0], file)
-			os.unlink(path)
+			if (file!='features.xml'):
+				path = os.path.join(pathentry[0], file)
+				os.unlink(path)
 
 for artefect in bundles:
 	jarName = artefect.getJar()
@@ -186,6 +200,7 @@ log ('* deployment successfull')
 try:
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.connect(("127.0.0.1", 5432))
+	s.close()
 except socket.error as e:
 	log ("cant connect postgres sql on localhost:5432","!!!")
 
