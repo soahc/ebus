@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+
+	<bean id="zipFileDataFormat" class="org.apache.camel.dataformat.zipfile.ZipFileDataFormat">
+		<property name="usingIterator" value="true" />
+	</bean>
+
+	<camel:camelContext>
+		<camel:contextScan />
+		<camel:route id="unzipMultipleFiles">
+			<camel:from
+				uri="file:///data/emarket/?delay=30000&amp;noop=true&amp;idempotent=false" />
+			<camel:unmarshal ref="zipFileDataFormat" />
+			<camel:split streaming="true">
+				<camel:simple>${body}</camel:simple>
+				<camel:to
+					uri="log:org.apache.camel?level=INFO&amp;showAll=true&amp;multiline=true" />
+				<camel:to uri="file:///data/extracted" />
+			</camel:split>
+		</camel:route>
+
+		<camel:route id="bindy-csv-marhalling-unmarshalling-exmaple"
+			autoStartup="true">
+			<camel:from uri="file:///data/extracted/?noop=true&amp;delay=2000" />
+			<camel:log message="CAMEL BINDY CSV MARSHALLING UNMARSHALLING EXAMPLE"
+				loggingLevel="WARN" />
+			<camel:split streaming="true">
+				<camel:tokenize token="\n" group="2" />
+				<camel:unmarshal ref="bindyDataformat">
+					<camel:bindy type="Csv"
+						classType="camel.Product" />
+				</camel:unmarshal>
+				<camel:log message="Student Details are ${body}"
+					loggingLevel="WARN" />
+			</camel:split>
+		</camel:route>
+	</camel:camelContext>
+</beans>
