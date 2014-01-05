@@ -4,27 +4,27 @@
 	
 	<bean id="systemUserDAOBean" class="de.ebus.emarket.server.daos.SystemUserDAO">
 		<tx:transaction method="*" value="Required" /> 
-        <jpa:context property="entityManager" unitname="iams-pu" />
+        <jpa:context property="entityManager" unitname="products-pu" />
 	</bean>
 	
 	<bean id="companyDAOBean" class="de.ebus.emarket.server.daos.CompanyDAO">
 		<tx:transaction method="*" value="Required" /> 
-        <jpa:context property="entityManager" unitname="iams-pu" />
+        <jpa:context property="entityManager" unitname="products-pu" />
 	</bean>
 	
 	<bean id="productDAOBean" class="de.ebus.emarket.server.daos.ProductDAO">
 		<tx:transaction method="*" value="Required" /> 
-        <jpa:context property="entityManager" unitname="iams-pu" />
+        <jpa:context property="entityManager" unitname="products-pu" />
 	</bean>
 	
 	<bean id="stockDAOBean" class="de.ebus.emarket.server.daos.StockDAO">
 		<tx:transaction method="*" value="Required" /> 
-        <jpa:context property="entityManager" unitname="iams-pu" />
+        <jpa:context property="entityManager" unitname="stock-pu" />
 	</bean>
 
 	<bean id="stockItemDAOBean" class="de.ebus.emarket.server.daos.StockItemDAO">
 		<tx:transaction method="*" value="Required" /> 
-        <jpa:context property="entityManager" unitname="iams-pu" />
+        <jpa:context property="entityManager" unitname="stock-pu" />
 	</bean>
 	
 	<bean id="daoProviderService" class="de.ebus.emarket.server.DAOProvider">
@@ -37,19 +37,32 @@
         
     <service ref="daoProviderService" interface="de.ebus.emarket.api.IDAOProvider" />
        
-	<!-- DataSource -->
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-        destroy-method="close">
+	<!-- DataSources -->
+	<!-- Products -->
+    <bean id="dataSourceProducts" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://localhost/iams" />
+        <property name="url" value="jdbc:postgresql://localhost/products" />
         <property name="username" value="postgres" />
         <property name="password" value="smx" />
     </bean>
-
-    <!-- Expose DataSource as JNDI reference -->
-    <service id="DS" ref="dataSource" interface="javax.sql.DataSource">
+    
+    <service id="DSP" ref="dataSourceProducts" interface="javax.sql.DataSource">
         <service-properties>
-            <entry key="osgi.jndi.service.name" value="jdbc/iams" />
+            <entry key="osgi.jndi.service.name" value="jdbc/products" />
+        </service-properties>
+    </service> 
+    
+    <!-- Stock -->
+	<bean id="dataSourceStock" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost/stock" />
+        <property name="username" value="postgres" />
+        <property name="password" value="smx" />
+    </bean>
+	
+    <service id="DSS" ref="dataSourceStock" interface="javax.sql.DataSource">
+        <service-properties>
+            <entry key="osgi.jndi.service.name" value="jdbc/stock" />
         </service-properties>
     </service> 
     

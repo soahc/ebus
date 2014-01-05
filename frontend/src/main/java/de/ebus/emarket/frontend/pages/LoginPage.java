@@ -1,6 +1,7 @@
 package de.ebus.emarket.frontend.pages;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;

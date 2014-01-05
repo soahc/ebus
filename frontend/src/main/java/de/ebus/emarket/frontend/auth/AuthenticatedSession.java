@@ -13,7 +13,8 @@ import de.ebus.emarket.persistence.entities.SystemUser;
 public class AuthenticatedSession extends AuthenticatedWebSession {
 
 	private static final long serialVersionUID = -4906177659736961601L;
-
+	private SystemUser currentUser;
+	
 	public IDAOProvider getDAOProviderService()
 	{
 	    // get bundle instance via the OSGi Framework Util class
@@ -21,8 +22,6 @@ public class AuthenticatedSession extends AuthenticatedWebSession {
 	    ServiceReference serviceReference = ctx.getServiceReference(IDAOProvider.class.getName());
 	    return IDAOProvider.class.cast(ctx.getService(serviceReference));
 	}
-	
-	SystemUser currentUser;
 	
 	public AuthenticatedSession(Request request) {
 		super(request);

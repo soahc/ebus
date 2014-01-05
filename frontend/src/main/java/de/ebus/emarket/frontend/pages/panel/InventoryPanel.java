@@ -9,8 +9,8 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.ops4j.pax.wicket.api.PaxWicketBean;
 
+import de.ebus.emarket.api.IDAOProvider;
 import de.ebus.emarket.frontend.ServiceProvider;
-import de.ebus.emarket.persistence.entities.Product;
 import de.ebus.emarket.persistence.entities.Stock;
 import de.ebus.emarket.persistence.entities.StockItem;
 
@@ -23,8 +23,9 @@ public class InventoryPanel extends ExtendedPanel{
 
 	public InventoryPanel(String id) {
 		super(id);
-		List<Stock> stocks = serviceProvider.getDaoProvider()
-				.getStockDAO().readAll(true);
+		IDAOProvider daoProvider = serviceProvider.getDaoProvider();
+		long companyID = daoProvider.getCompanyDAO().readCompanyFromUser(getAuthenticatedSession().getCurrentUser()).getId();
+		List<Stock> stocks = daoProvider.getStockDAO().readAllWithCompanyID(companyID);
 		add(new StockListView("products", stocks));
 	}
 
@@ -57,10 +58,7 @@ public class InventoryPanel extends ExtendedPanel{
 		@Override
 		protected void populateItem(ListItem<StockItem> listItem) {
 			StockItem stockItem = listItem.getModelObject();
-			//Product product = serviceProvider.getDaoProvider().getProductDAO().read(stockItem.getProductSerialNumber());
 			listItem.add(new Label("stockItemSerial", stockItem.getProductSerialNumber()));
-//			listItem.add(new Label("stockItemName", product.getName()));
-//			listItem.add(new Label("stockItemPrice", product.getPrice()));
 			listItem.add(new Label("stockItemUnits", stockItem.getCount()));
 
 			Label imagelbl = new Label(
