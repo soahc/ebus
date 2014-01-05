@@ -1,39 +1,38 @@
 <wicket:panel>
 	<div id="content">
-		<h1>Products</h1>
+		<h1>Inventory</h1>
 		<ul class="productUl">
 			<li class="productitem" wicket:id="products">
-				<div class="product">
-					<div class="productimage">
-						<span wicket:id="productImage"></span>
-					</div>
-					<div class="productdescwrapper">
-						<div class="serial" wicket:id="productSerial"></div>
-						<div class="name" wicket:id="productName"></div>
-						<div class="price">
-							<span wicket:id="productPrice"></span> &euro;
-						</div>
-						<a href="#" class="buttonstock" wicket:id="stockLink"> to stocksystem </a>
+				<div class="stock">
+					<div class="stockdescwrapper">
+						<div class="name" wicket:id="stockName"></div>
+						<ul class="productUl">
+							<li class="productitem" wicket:id="stockitems">
+								<div class="stockItem">
+									<div class="productimage">
+										<span wicket:id="stockitemImage"></span>
+									</div>
+									<div class="stockItemdescwrapper">
+										<div class="serial" wicket:id="stockItemSerial"></div>
+										<!-- 
+										<div class="name" wicket:id="stockItemName"></div>
+										<div class="price">
+											<span wicket:id="stockItemPrice"></span> &euro;
+										</div>  -->
+										<div class="price">
+											Units: <span wicket:id="stockItemUnits"></span>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+							<!-- 
+							<a href="#" class="buttonstock" wicket:id="stockLink"> to stocksystem </a>							
+							 -->
 					</div>
 				</div>
-
-
-			<!--<div class="item">
-				<div class="itemimage">
-					<span wicket:id="itemImage"></span>
-				</div>
-				<div class="itemdescwrapper">
-					<div class="titel" wicket:id="itemName"></div>
-					<div class="description" wicket:id="itemDescription"></div>
-					<div class="Preis">
-						<span wicket:id="itemPrice"></span> &euro;
-					</div>
-
-					<a href="#" class="buttonwarenkorb" wicket:id="itemLink"> zum
-						Warenkorb </a>
-					</div>
-				</div>-->
 			</li>
 		</ul>
+		
 	</div>
 </wicket:panel>

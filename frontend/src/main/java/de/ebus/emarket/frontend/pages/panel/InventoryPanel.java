@@ -11,6 +11,8 @@ import org.ops4j.pax.wicket.api.PaxWicketBean;
 
 import de.ebus.emarket.frontend.ServiceProvider;
 import de.ebus.emarket.persistence.entities.Product;
+import de.ebus.emarket.persistence.entities.Stock;
+import de.ebus.emarket.persistence.entities.StockItem;
 
 public class InventoryPanel extends ExtendedPanel{
 
@@ -21,34 +23,53 @@ public class InventoryPanel extends ExtendedPanel{
 
 	public InventoryPanel(String id) {
 		super(id);
-		List<Product> products = serviceProvider.getDaoProvider()
-				.getProductDAO().readAll(true);
-		add(new ProductListView("products", products));
+		List<Stock> stocks = serviceProvider.getDaoProvider()
+				.getStockDAO().readAll(true);
+		add(new StockListView("products", stocks));
 	}
 
-	private class ProductListView extends ListView<Product> {
+	private class StockListView extends ListView<Stock> {
 
 		private static final long serialVersionUID = 405269496693447691L;
 
-		public ProductListView(String id, List<? extends Product> list) {
+		public StockListView(String id, List<? extends Stock> list) {
 			super(id, list);
 		}
 
 		@Override
-		protected void populateItem(ListItem<Product> listItem) {
-			Product product = listItem.getModelObject();
-			listItem.add(new Label("productSerial", product.getSerialNumber()));
-			listItem.add(new Label("productName", product.getName() + "Blub"));
-			listItem.add(new Label("productPrice", product.getPrice()));
+		protected void populateItem(ListItem<Stock> listItem) {
+			Stock stock = listItem.getModelObject();
+			listItem.add(new Label("stockName", stock.getStockName()));
+			
+			List<StockItem> items = serviceProvider.getDaoProvider().getStockItemDAO().readAllFromStock(stock);
+			listItem.add(new StockItemListView("stockitems", items));
+		}
+	}
+	
+	private class StockItemListView extends ListView<StockItem> {
+
+		private static final long serialVersionUID = 405269496693447691L;
+
+		public StockItemListView(String id, List<? extends StockItem> list) {
+			super(id, list);
+		}
+
+		@Override
+		protected void populateItem(ListItem<StockItem> listItem) {
+			StockItem stockItem = listItem.getModelObject();
+			//Product product = serviceProvider.getDaoProvider().getProductDAO().read(stockItem.getProductSerialNumber());
+			listItem.add(new Label("stockItemSerial", stockItem.getProductSerialNumber()));
+//			listItem.add(new Label("stockItemName", product.getName()));
+//			listItem.add(new Label("stockItemPrice", product.getPrice()));
+			listItem.add(new Label("stockItemUnits", stockItem.getCount()));
 
 			Label imagelbl = new Label(
-					"productImage",
+					"stockitemImage",
 					"<img src=\""
 							+ "http://www.infendo.com/wp-content/uploads/2008/09/3951-hdd.jpg"
 							+ "\" width=\"134\" height=\"134\" />");
 			imagelbl.setEscapeModelStrings(false);
 			listItem.add(imagelbl);
-			listItem.add(new StockLink("stockLink"));
 			
 		}
 	}

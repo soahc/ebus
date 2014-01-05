@@ -13,10 +13,14 @@ import org.ops4j.pax.wicket.api.PaxWicketBean;
 import de.ebus.emarket.api.ICompanyDAO;
 import de.ebus.emarket.api.IDAOProvider;
 import de.ebus.emarket.api.IProductDAO;
+import de.ebus.emarket.api.IStockDAO;
+import de.ebus.emarket.api.IStockItemDAO;
 import de.ebus.emarket.api.ISystemUserDAO;
 import de.ebus.emarket.frontend.ServiceProvider;
 import de.ebus.emarket.persistence.entities.Company;
 import de.ebus.emarket.persistence.entities.Product;
+import de.ebus.emarket.persistence.entities.Stock;
+import de.ebus.emarket.persistence.entities.StockItem;
 import de.ebus.emarket.persistence.entities.SystemUser;
 
 public class LoginPage extends ExtendedWebPage {
@@ -75,16 +79,28 @@ public class LoginPage extends ExtendedWebPage {
 			IProductDAO productDAO = daoProvider.getProductDAO();
 			ISystemUserDAO systemUserDAO = daoProvider.getSystemUserDAO();
 			ICompanyDAO companyDAO = daoProvider.getCompanyDAO();
+			IStockDAO stockDAO = daoProvider.getStockDAO();
+			IStockItemDAO stockItemDAO = daoProvider.getStockItemDAO();
 			
 			productDAO.deleteAll();
 			systemUserDAO.deleteAll();
 			companyDAO.deleteAll();
+			stockDAO.deleteAll();
+			stockItemDAO.deleteAll();
 			
 			Company company = companyDAO.create(new Company("Die Firma"));
 			systemUserDAO.create(new SystemUser("Test","test",company));
-			productDAO.create(new Product("SN00001", "HD WD20010Cavier", new BigDecimal("120.49"), company));
-			productDAO.create(new Product("SN00002", "SSD 840 Series", new BigDecimal("242.28"), company));
-			productDAO.create(new Product("SN00003", "HD NPQS217 H3", new BigDecimal("220.99"), company));
+			Product product1 = productDAO.create(new Product("SN00001", "HD WD20010Cavier", new BigDecimal("120.49"), company));
+			Product product2 = productDAO.create(new Product("SN00002", "SSD 840 Series", new BigDecimal("242.28"), company));
+			Product product3 = productDAO.create(new Product("SN00003", "HD NPQS217 H3", new BigDecimal("220.99"), company));
+			
+			Stock stock1 = stockDAO.create(new Stock(company.getId(), "Stock 1"));
+			Stock stock2 = stockDAO.create(new Stock(company.getId(), "Stock 2"));
+
+			stockItemDAO.create(new StockItem(stock1, product1.getSerialNumber()), 50);
+			stockItemDAO.create(new StockItem(stock1, product2.getSerialNumber()), 20);
+			stockItemDAO.create(new StockItem(stock2, product1.getSerialNumber()), 30);
+			stockItemDAO.create(new StockItem(stock2, product3.getSerialNumber()), 40);
 			
 			System.out.println("\nDataBase reseted");
 		}
