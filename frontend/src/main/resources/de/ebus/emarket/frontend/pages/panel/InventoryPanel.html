@@ -1,0 +1,38 @@
+<wicket:panel>
+	<div id="content">
+		<h1>Inventory</h1>
+		<ul class="productUl">
+			<li class="productitem" wicket:id="products">
+				<div class="stock">
+					<div class="stockdescwrapper">
+						<div class="name" wicket:id="stockName"></div>
+						<ul class="productUl">
+							<li class="productitem" wicket:id="stockitems">
+								<div class="stockItem">
+									<div class="productimage">
+										<span wicket:id="stockitemImage"></span>
+									</div>
+									<div class="stockItemdescwrapper">
+										<div class="serial" wicket:id="stockItemSerial"></div>
+										<!-- 
+										<div class="name" wicket:id="stockItemName"></div>
+										<div class="price">
+											<span wicket:id="stockItemPrice"></span> &euro;
+										</div>  -->
+										<div class="price">
+											Units: <span wicket:id="stockItemUnits"></span>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+							<!-- 
+							<a href="#" class="buttonstock" wicket:id="stockLink"> to stocksystem </a>							
+							 -->
+					</div>
+				</div>
+			</li>
+		</ul>
+		
+	</div>
+</wicket:panel>

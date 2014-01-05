@@ -108,3 +108,29 @@ a.buttonstock:hover {
         background-color: #3C8DCB;
         color: #002E40;
 }
+
+.stock {
+        width: 450px;
+        border: 2px solid rgba(34, 88, 153, .2);
+        margin-bottom: 10px;
+        clear: both;
+}
+
+.stockdescwrapper {
+        /*padding: 0 10px 10px 160px;*/
+        height: 110%;
+        position: relative;
+}
+
+.stockItem {
+        width: 400px;
+        border: 1px solid rgba(34, 88, 153, .2);
+        margin-bottom: 10px;
+        clear: both;
+}
+
+.stockItemdescwrapper {
+        padding: 0 10px 10px 160px;
+        height: 136px;
+        position: relative;
+}

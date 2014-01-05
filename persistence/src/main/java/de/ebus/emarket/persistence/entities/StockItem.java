@@ -1,8 +1,10 @@
 package de.ebus.emarket.persistence.entities;
 
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
+@Entity
 public class StockItem extends AEntity {
 
 	private static final long serialVersionUID = 8724417543214530634L;
