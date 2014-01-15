@@ -9,7 +9,9 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.ops4j.pax.wicket.api.PaxWicketBean;
 
+import de.ebus.emarket.api.IDAOProvider;
 import de.ebus.emarket.frontend.ServiceProvider;
+import de.ebus.emarket.persistence.entities.Company;
 import de.ebus.emarket.persistence.entities.Product;
 
 public class ProductsPanel extends ExtendedPanel {
@@ -21,8 +23,9 @@ public class ProductsPanel extends ExtendedPanel {
 
 	public ProductsPanel(String id) {
 		super(id);
-		List<Product> products = serviceProvider.getDaoProvider()
-				.getProductDAO().readAll(true);
+		IDAOProvider daoProvider = serviceProvider.getDaoProvider();
+		Company company = daoProvider.getCompanyDAO().readCompanyFromUser(getAuthenticatedSession().getCurrentUser());
+		List<Product> products = serviceProvider.getDaoProvider().getProductDAO().readAllFromCompany(company);
 		add(new ProductListView("products", products));
 	}
 

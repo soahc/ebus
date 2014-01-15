@@ -7,21 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
-import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
-import org.apache.camel.dataformat.bindy.annotation.DataField;
-
 @Entity
-@CsvRecord(separator = "\\|", skipFirstLine=true)
 public class Product extends AEntity {
 	private static final long serialVersionUID = -4503595932183481371L;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Company company;
-	@DataField(pos = 1, required=true)
 	private String serialNumber;
-	@DataField(pos = 2, required=true)
 	private String name;
-	@DataField(pos = 3, precision = 2, required=true)
 	@Column(name = "amount", precision = 19, scale = 2)
 	private BigDecimal price;
 	

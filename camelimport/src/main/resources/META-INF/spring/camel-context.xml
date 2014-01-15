@@ -63,8 +63,7 @@
 			</camel:setProperty>
 			<camel:process ref="IDAdderProcessor"/> 
 			<camel:log message="Linedetails are ${body}" loggingLevel="WARN" />
-		     <camel:to uri="jpa://de.ebus.emarket.camel.entities.Product"/> 
-
+		    <camel:to uri="jpa://de.ebus.emarket.camel.entities.Product"/> 
 		</camel:route>
 	</camel:camelContext>
 </beans>

@@ -117,7 +117,8 @@ if len(sys.argv)>1:
 			log ('* create folder '+optPath)
 			if (isPosix):
 				subprocess.call(['sudo', 'mkdir', optPath])
-				subprocess.call(['sudo', 'mkdir', dataPath])
+				if not os.path.isdir(dataPath):
+					subprocess.call(['sudo', 'mkdir', dataPath])
 				stat_info = os.stat(optPath)
 				if not pwd.getpwuid(stat_info.st_uid)[0] == user:
 					subprocess.call(['sudo', 'chown', user, optPath])
@@ -125,7 +126,8 @@ if len(sys.argv)>1:
 
 			else:
 				os.makedirs(optPath)
-				os.makedirs(dataPath)
+				if not os.path.isdir(dataPath):
+					os.makedirs(dataPath)
 
 			log ('* create folder '+emarketPath)
 			os.makedirs(emarketPath)
