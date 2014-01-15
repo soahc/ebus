@@ -1,22 +1,19 @@
-package de.ebus.emarket.persistence.entities;
+package de.ebus.emarket.camel.entities;
 
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
 
 @Entity
-@CsvRecord(separator = "\\|", skipFirstLine=true)
+@CsvRecord(separator = ";")
 public class Product extends AEntity {
 	private static final long serialVersionUID = -4503595932183481371L;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Company company;
+	private long company_id;
 	@DataField(pos = 1, required=true)
 	private String serialNumber;
 	@DataField(pos = 2, required=true)
@@ -25,21 +22,21 @@ public class Product extends AEntity {
 	@Column(name = "amount", precision = 19, scale = 2)
 	private BigDecimal price;
 	
-	public Product(String serialNumber, String name, BigDecimal price, Company company){
+	public Product(String serialNumber, String name, BigDecimal price, long company_id){
 		setSerialNumber(serialNumber);
 		setName(name);
 		setPrice(price);
-		setCompany(company);
+		setCompany_id(company_id);
 	}
 	
 	public Product(){}
 	
-	public Company getCompany() {
-		return company;
+	public long getCompany_id() {
+		return company_id;
 	}
 
-	public void setCompany(Company company) {
-		this.company = company;
+	public void setCompany_id(long company_id) {
+		this.company_id = company_id;
 	}
 
 	public String getSerialNumber() {
@@ -64,5 +61,9 @@ public class Product extends AEntity {
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+	
+	public String toString(){
+		return "companyID: " +company_id + ", serialbumber: "+ serialNumber + ", price: "+price;
 	}
 }
