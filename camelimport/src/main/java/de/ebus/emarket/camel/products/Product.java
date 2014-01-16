@@ -1,4 +1,4 @@
-package de.ebus.emarket.camel.entities;
+package de.ebus.emarket.camel.products;
 
 import java.math.BigDecimal;
 
@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
+
+import de.ebus.emarket.camel.entities.AEntity;
 
 @Entity
 @CsvRecord(separator = ";")
@@ -63,7 +65,8 @@ public class Product extends AEntity {
 		this.price = price;
 	}
 	
+	@Override
 	public String toString(){
-		return "companyID: " +company_id + ", serialbumber: "+ serialNumber + ", price: "+price;
+		return "companyID: " +company_id + ", serialnumber: "+ serialNumber + ", name: " + name + ", price: "+price;
 	}
 }

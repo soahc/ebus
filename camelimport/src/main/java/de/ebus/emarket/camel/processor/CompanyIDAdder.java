@@ -4,7 +4,8 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
 
-import de.ebus.emarket.camel.entities.Product;
+import de.ebus.emarket.camel.products.Product;
+
 
 public class CompanyIDAdder implements Processor {
 	

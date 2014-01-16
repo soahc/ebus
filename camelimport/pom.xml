@@ -112,6 +112,8 @@
 				<version>2.2.2</version>
 				<configuration>
 					<includes>**/entities/*.class</includes>
+					<includes>**/products/*.class</includes>
+					<includes>**/stock/*.class</includes>
 					<addDefaultConstructor>true</addDefaultConstructor>
 					<enforcePropertyRestrictions>true</enforcePropertyRestrictions>
 				</configuration>

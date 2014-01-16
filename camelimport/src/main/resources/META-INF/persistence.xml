@@ -6,7 +6,7 @@
 	<persistence-unit name="products-pu">
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider> 
 		<class>de.ebus.emarket.camel.entities.AEntity</class>
-		<class>de.ebus.emarket.camel.entities.Product</class>
+		<class>de.ebus.emarket.camel.products.Product</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver" />
@@ -17,43 +17,21 @@
 			<property name="openjpa.RuntimeUnenhancedClasses" value="supported" />
 		</properties>
 	</persistence-unit>
+	
+	<persistence-unit name="stock-pu">
+		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider> 
+		<class>de.ebus.emarket.camel.entities.AEntity</class>
+		<class>de.ebus.emarket.camel.stock.StockItem</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver" />
+			<property name="openjpa.ConnectionURL" value="jdbc:postgresql://localhost/stock" />
+			<property name="openjpa.ConnectionUserName" value="postgres" />
+			<property name="openjpa.ConnectionPassword" value="smx" />
+			<property name="openjpa.DynamicEnhancementAgent" value="true" />
+			<property name="openjpa.RuntimeUnenhancedClasses" value="supported" />
+		</properties>
+	</persistence-unit> 
 </persistence>
 
- <!--<persistence xmlns="http://java.sun.com/xml/ns/persistence"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
-    http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
-	version="2.0">
-	<persistence-unit name="products-pu" transaction-type="JTA">
-		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
-		<jta-data-source>osgi:service/javax.sql.DataSource/(osgi.jndi.service.name=jdbc/products)</jta-data-source>
-		<class>de.ebus.emarket.persistence.entities.AEntity</class>
-		<class>de.ebus.emarket.persistence.entities.Company</class>
-		<class>de.ebus.emarket.persistence.entities.SystemUser</class>
-		<class>de.ebus.emarket.persistence.entities.Product</class>
-		<exclude-unlisted-classes>true</exclude-unlisted-classes>
-		<properties>
-			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(Sequences=false)" />
-			<property name="openjpa.jdbc.DBDictionary" value="postgres" />
-			<property name="openjpa.Log" value="DefaultLevel=TRACE,Tool=INFO,Runtime=TRACE" />
-			<property name="openjpa.DynamicEnhancementAgent" value="false" />
-			<property name="openjpa.RuntimeUnenhancedClasses" value="unsupported" />
-		</properties>
-	</persistence-unit>
-	<persistence-unit name="stock-pu" transaction-type="JTA">
-		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
-		<jta-data-source>osgi:service/javax.sql.DataSource/(osgi.jndi.service.name=jdbc/stock)</jta-data-source>
-		<class>de.ebus.emarket.persistence.entities.AEntity</class>
-		<class>de.ebus.emarket.persistence.entities.StockItem</class>
-		<class>de.ebus.emarket.persistence.entities.Stock</class>
-		<exclude-unlisted-classes>true</exclude-unlisted-classes>
-		<properties>
-			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(Sequences=false)" />
-			<property name="openjpa.jdbc.DBDictionary" value="postgres" />
-			<property name="openjpa.Log" value="DefaultLevel=TRACE,Tool=INFO,Runtime=TRACE" />
-			<property name="openjpa.DynamicEnhancementAgent" value="false" />
-			<property name="openjpa.RuntimeUnenhancedClasses" value="unsupported" />
-		</properties>
-	</persistence-unit>
-</persistence>-->
  
