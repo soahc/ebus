@@ -2,12 +2,9 @@ package de.ebus.emarket.camel.stock;
 
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
-
 import de.ebus.emarket.camel.entities.AEntity;
 
 @Entity

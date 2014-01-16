@@ -14,15 +14,15 @@
 	<bean id="emfProducts" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="products-pu" />
 	</bean>
-	
-	 <bean id="jpaStock" class="org.apache.camel.component.jpa.JpaComponent">
+
+	<bean id="jpaStock" class="org.apache.camel.component.jpa.JpaComponent">
 		<property name="entityManagerFactory" ref="emfStock" />
 	</bean>
 
 	<bean id="emfStock" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="stock-pu" />
-	</bean> 
-	
+	</bean>
+
 	<bean id="zipFileDataFormat" class="org.apache.camel.dataformat.zipfile.ZipFileDataFormat">
 		<property name="usingIterator" value="true" />
 	</bean>
@@ -32,10 +32,10 @@
 
 	<camel:camelContext>
 		<camel:contextScan />
-		
+
 		<camel:route id="unzipMultipleFiles">
 			<camel:from
-				uri="file:///c:/data/emarket/?delay=1000&amp;noop=false&amp;idempotent=false" />
+				uri="file:///data/emarket/?delay=1000&amp;noop=false&amp;idempotent=false" />
 			<camel:unmarshal ref="zipFileDataFormat" />
 			<camel:log message="TEST: ${file:name}" loggingLevel="WARN" />
 			<camel:setProperty propertyName="zipFileName">
@@ -43,13 +43,16 @@
 			</camel:setProperty>
 			<camel:split streaming="true">
 				<camel:simple>${body}</camel:simple>
-				<camel:to uri="log:org.apache.camel?level=INFO&amp;showAll=true&amp;multiline=true" />
-				<camel:to uri="file:///c:/data/extracted/?fileName=${property.zipFileName}/${file:name}/" />
+				<camel:to
+					uri="log:org.apache.camel?level=INFO&amp;showAll=true&amp;multiline=true" />
+				<camel:to
+					uri="file:///data/extracted/?fileName=${property.zipFileName}/${file:name}/" />
 			</camel:split>
 		</camel:route>
 
 		<camel:route id="bindy-csv-unmarshalling" autoStartup="true">
-			<camel:from uri="file:///c:/data/extracted/?noop=false&amp;recursive=true&amp;delay=1000" />
+			<camel:from
+				uri="file:///data/extracted/?noop=false&amp;recursive=true&amp;delay=1000" />
 			<camel:split streaming="true">
 				<camel:tokenize token="\n" group="1" />
 				<camel:filter>
@@ -59,10 +62,10 @@
 							<camel:simple>${file:name} contains 'products'</camel:simple>
 							<camel:to uri="direct:unmarshalproducts" />
 						</camel:when>
-					 	<camel:when>
+						<camel:when>
 							<camel:simple>${file:name} contains 'stock'</camel:simple>
 							<camel:to uri="direct:unmarshalstock" />
-						</camel:when> 
+						</camel:when>
 					</camel:choice>
 				</camel:filter>
 			</camel:split>
@@ -71,28 +74,32 @@
 		<camel:route id="productbindy-to-jpa">
 			<camel:from uri="direct:unmarshalproducts" />
 			<camel:unmarshal ref="bindyDataformat">
-				<camel:bindy type="Csv" classType="de.ebus.emarket.camel.products.Product" />
+				<camel:bindy type="Csv"
+					classType="de.ebus.emarket.camel.products.Product" />
 			</camel:unmarshal>
 			<camel:setProperty propertyName="csvFileName">
 				<camel:simple>${file:name}</camel:simple>
 			</camel:setProperty>
-			<camel:process ref="IDAdderProcessor"/> 
-			<camel:log message="Productdetails are ${body}" loggingLevel="WARN" />
-		    <camel:to uri="jpaProducts://de.ebus.emarket.camel.products.Product"/> 
+			<camel:process ref="IDAdderProcessor" />
+			<camel:log message="Productdetails are ${body}"
+				loggingLevel="WARN" />
+			<camel:to uri="jpaProducts://de.ebus.emarket.camel.products.Product" />
 		</camel:route>
-		
-			<camel:route id="stockbindy-to-jpa">
+
+		<camel:route id="stockbindy-to-jpa">
 			<camel:from uri="direct:unmarshalstock" />
 			<camel:unmarshal ref="bindyDataformat">
-				<camel:bindy type="Csv" classType="de.ebus.emarket.camel.stock.StockItem" />
+				<camel:bindy type="Csv"
+					classType="de.ebus.emarket.camel.stock.StockItem" />
 			</camel:unmarshal>
 			<camel:setProperty propertyName="csvFileName">
 				<camel:simple>${file:name}</camel:simple>
 			</camel:setProperty>
-			 
-			<camel:log message="Stockitemdetails are ${body}" loggingLevel="WARN" />
-		    <camel:to uri="jpaStock://de.ebus.emarket.camel.stock.StockItem"/>  
+
+			<camel:log message="Stockitemdetails are ${body}"
+				loggingLevel="WARN" />
+			<camel:to uri="jpaStock://de.ebus.emarket.camel.stock.StockItem" />
 		</camel:route>
-		
+
 	</camel:camelContext>
 </beans>
