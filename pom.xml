@@ -11,6 +11,7 @@
 		<module>api</module>
 		<module>server</module>
 		<module>frontend</module>
+		<module>camelimport</module>
 	</modules>
 
 </project>

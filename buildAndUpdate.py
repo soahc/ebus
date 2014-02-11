@@ -35,7 +35,7 @@ Artefect("de.ebus.emarket","persistence","0.0.1-SNAPSHOT"),
 Artefect("de.ebus.emarket","api","0.0.1-SNAPSHOT"),
 Artefect("de.ebus.emarket","server","0.0.1-SNAPSHOT"),
 Artefect("de.ebus.emarket","frontend","0.0.1-SNAPSHOT"),
-Artefect("de.ebus.emarket","camelimport","1.0-SNAPSHOT"),
+#Artefect("de.ebus.emarket","camelimport","1.0-SNAPSHOT"),
 ]
 
 # -----------------------------------------------------
