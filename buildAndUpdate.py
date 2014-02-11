@@ -1,4 +1,7 @@
 #!/usr/bin/python
+#	installFeatures - downloads servicemix, deploys features, deploys emarket bundles
+#	redeploy        - redeploy emarket bundles
+
 import subprocess
 import os 
 import sys
@@ -32,6 +35,7 @@ Artefect("de.ebus.emarket","persistence","0.0.1-SNAPSHOT"),
 Artefect("de.ebus.emarket","api","0.0.1-SNAPSHOT"),
 Artefect("de.ebus.emarket","server","0.0.1-SNAPSHOT"),
 Artefect("de.ebus.emarket","frontend","0.0.1-SNAPSHOT"),
+Artefect("de.ebus.emarket","camelimport","1.0-SNAPSHOT"),
 ]
 
 # -----------------------------------------------------
@@ -193,7 +197,6 @@ for artefect in bundles:
 	fileSrc = artefect.artifactId+'/target/'+jarName
 	fileDst = deployPath+jarName
 	log ("- deploy "+artefect.getJar())
-	#log ("-> "+fileSrc + " -> " + fileDst)
 	shutil.copy(fileSrc, fileDst)
 	time.sleep(1)
 	
