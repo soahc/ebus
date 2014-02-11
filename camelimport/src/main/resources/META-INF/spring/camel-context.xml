@@ -90,7 +90,7 @@
 			<camel:from uri="direct:unmarshalstock" />
 			<camel:unmarshal ref="bindyDataformat">
 				<camel:bindy type="Csv"
-					classType="de.ebus.emarket.camel.stock.StockItem" />
+					classType="de.ebus.emarket.camel.entities.StockItem" />
 			</camel:unmarshal>
 			<camel:setProperty propertyName="csvFileName">
 				<camel:simple>${file:name}</camel:simple>
@@ -98,7 +98,7 @@
 
 			<camel:log message="Stockitemdetails are ${body}"
 				loggingLevel="WARN" />
-			<camel:to uri="jpaStock://de.ebus.emarket.camel.stock.StockItem" />
+			<camel:to uri="jpaStock://de.ebus.emarket.camel.entities.StockItem" />
 		</camel:route>
 
 	</camel:camelContext>

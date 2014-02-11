@@ -1,11 +1,10 @@
-package de.ebus.emarket.camel.stock;
+package de.ebus.emarket.camel.entities;
 
 
 import javax.persistence.Entity;
 
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
-import de.ebus.emarket.camel.entities.AEntity;
 
 @Entity
 @CsvRecord(separator = ";")

@@ -5,8 +5,10 @@ import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.request.resource.PackageResourceReference;
 import org.ops4j.pax.wicket.api.PaxWicketBean;
 
 import de.ebus.emarket.api.IDAOProvider;
@@ -44,13 +46,14 @@ public class ProductsPanel extends ExtendedPanel {
 			listItem.add(new Label("productName", product.getName()));
 			listItem.add(new Label("productPrice", product.getPrice()));
 
-			Label imagelbl = new Label(
-					"productImage",
-					"<img src=\""
-							+ "http://www.infendo.com/wp-content/uploads/2008/09/3951-hdd.jpg"
-							+ "\" width=\"134\" height=\"134\" />");
-			imagelbl.setEscapeModelStrings(false);
-			listItem.add(imagelbl);
+//			Label imagelbl = new Label(
+//					"productImage",
+//					"<img src=\""
+//							+ "http://www.infendo.com/wp-content/uploads/2008/09/3951-hdd.jpg"
+//							+ "\" width=\"134\" height=\"134\" />");
+//			imagelbl.setEscapeModelStrings(false);
+//			listItem.add(imagelbl);
+			listItem.add(new Image("productImage", new PackageResourceReference(ProductsPanel.class, "/images/products/" + product.getImagePath())));
 			listItem.add(new StockLink("stockLink"));
 			
 		}

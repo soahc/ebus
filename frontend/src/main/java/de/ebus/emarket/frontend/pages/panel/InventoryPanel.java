@@ -64,7 +64,7 @@ public class InventoryPanel extends ExtendedPanel{
 			Label imagelbl = new Label(
 					"stockitemImage",
 					"<img src=\""
-							+ "http://www.infendo.com/wp-content/uploads/2008/09/3951-hdd.jpg"
+							+ "/images/products/3951-hdd.jpg"
 							+ "\" width=\"134\" height=\"134\" />");
 			imagelbl.setEscapeModelStrings(false);
 			listItem.add(imagelbl);

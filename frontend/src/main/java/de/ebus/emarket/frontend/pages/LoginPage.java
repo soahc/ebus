@@ -1,14 +1,15 @@
 package de.ebus.emarket.frontend.pages;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.resource.PackageResourceReference;
 import org.ops4j.pax.wicket.api.PaxWicketBean;
 
 import de.ebus.emarket.api.ICompanyDAO;
@@ -35,6 +36,8 @@ public class LoginPage extends ExtendedWebPage {
 		add(new FeedbackPanel("feedback"));
 		add(new SignInForm("signInForm"));
 		add(new ResetDatabaseLink("resetDBLink"));
+		//add(new Image("imageTest", new PackageResourceReference(LoginPage.class, "/images/products/3951-hdd.jpg")));
+
 
 	}
 
@@ -87,12 +90,26 @@ public class LoginPage extends ExtendedWebPage {
 			companyDAO.deleteAll();
 			stockDAO.deleteAll();
 			stockItemDAO.deleteAll();
-			
+ 
+			PackageResourceReference prr = new PackageResourceReference(LoginPage.class, "/images/products/3951-hdd.jpg");
+			Image image = new Image("image", prr);
+			System.out.println("===> " + prr.toString());
+			System.out.println("===> " + image.getPath());
+			System.out.println("===> " + image.getPageRelativePath());
+	
 			Company company = companyDAO.create(new Company("Die Firma"));
+
 			systemUserDAO.create(new SystemUser("Test","test",company));
 			Product product1 = productDAO.create(new Product("SN00001", "HD WD20010Cavier", new BigDecimal("120.49"), company));
+			product1.setImagePath("3951-hdd.jpg");
+			productDAO.update(product1);
+
 			Product product2 = productDAO.create(new Product("SN00002", "SSD 840 Series", new BigDecimal("242.28"), company));
+			product2.setImagePath("SSD_840_Basic_250_GB_open.JPG");
+			productDAO.update(product2);
 			Product product3 = productDAO.create(new Product("SN00003", "HD NPQS217 H3", new BigDecimal("220.99"), company));
+			product3.setImagePath("3951-hdd.jpg");
+			productDAO.update(product3);
 			
 			Stock stock1 = stockDAO.create(new Stock(company.getId(), "Stock 1"));
 			Stock stock2 = stockDAO.create(new Stock(company.getId(), "Stock 2"));
