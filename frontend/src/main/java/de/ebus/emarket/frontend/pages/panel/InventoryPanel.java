@@ -5,12 +5,15 @@ import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.ops4j.pax.wicket.api.PaxWicketBean;
 
 import de.ebus.emarket.api.IDAOProvider;
 import de.ebus.emarket.frontend.ServiceProvider;
+import de.ebus.emarket.frontend.pages.panel.Image.ReadImageModel;
+import de.ebus.emarket.persistence.entities.Product;
 import de.ebus.emarket.persistence.entities.Stock;
 import de.ebus.emarket.persistence.entities.StockItem;
 
@@ -42,7 +45,7 @@ public class InventoryPanel extends ExtendedPanel{
 			Stock stock = listItem.getModelObject();
 			listItem.add(new Label("stockName", stock.getStockName()));
 			
-			List<StockItem> items = serviceProvider.getDaoProvider().getStockItemDAO().readAllFromStock(stock);
+			List<StockItem> items = serviceProvider.getDaoProvider().getStockItemDAO().readAllFromStock(stock.getId());
 			listItem.add(new StockItemListView("stockitems", items));
 		}
 	}
@@ -60,15 +63,11 @@ public class InventoryPanel extends ExtendedPanel{
 			StockItem stockItem = listItem.getModelObject();
 			listItem.add(new Label("stockItemSerial", stockItem.getProductSerialNumber()));
 			listItem.add(new Label("stockItemUnits", stockItem.getCount()));
-
-			Label imagelbl = new Label(
-					"stockitemImage",
-					"<img src=\""
-							+ "/images/products/3951-hdd.jpg"
-							+ "\" width=\"134\" height=\"134\" />");
-			imagelbl.setEscapeModelStrings(false);
-			listItem.add(imagelbl);
 			
+			Stock stock = serviceProvider.getDaoProvider().getStockDAO().readStock(stockItem.getStock_id());
+			Product product = serviceProvider.getDaoProvider().getProductDAO().readProductBySerialnumber(stockItem.getProductSerialNumber(), stock.getCompanyID());
+
+			listItem.add(new NonCachingImage("stockitemImage", new ReadImageModel(product)));
 		}
 	}
 	

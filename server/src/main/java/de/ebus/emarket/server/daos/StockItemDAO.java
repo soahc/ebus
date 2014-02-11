@@ -42,7 +42,7 @@ public class StockItemDAO extends DAO implements IStockItemDAO {
 	}
 
 	@Override
-	public List<StockItem> readAllFromStock(final Stock stock) {
+	public List<StockItem> readAllFromStock(final long id) {
 		/*List<StockItem> items = readByJPQL("SELECT c FROM StockItem c");
 		List<StockItem> result = new ArrayList<StockItem>();
 		for (StockItem stockItem : items) {
@@ -51,7 +51,7 @@ public class StockItemDAO extends DAO implements IStockItemDAO {
 			}
 		}
 		return result;*/
-		return readByJPQL("SELECT c FROM StockItem c WHERE c.stock.id = " + stock.getId());
+		return readByJPQL("SELECT c FROM StockItem c WHERE c.stock_id = " + id);
 	}
 
 }

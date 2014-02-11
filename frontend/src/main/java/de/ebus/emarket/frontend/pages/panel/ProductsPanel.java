@@ -1,18 +1,31 @@
 package de.ebus.emarket.frontend.pages.panel;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.request.resource.ContextRelativeResource;
+import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.request.resource.PackageResourceReference;
+import org.apache.wicket.util.io.ByteArrayOutputStream;
+import org.apache.wicket.util.string.StringValue;
 import org.ops4j.pax.wicket.api.PaxWicketBean;
 
 import de.ebus.emarket.api.IDAOProvider;
 import de.ebus.emarket.frontend.ServiceProvider;
+import de.ebus.emarket.frontend.pages.panel.Image.ReadImageModel;
 import de.ebus.emarket.persistence.entities.Company;
 import de.ebus.emarket.persistence.entities.Product;
 
@@ -41,21 +54,14 @@ public class ProductsPanel extends ExtendedPanel {
 
 		@Override
 		protected void populateItem(ListItem<Product> listItem) {
-			Product product = listItem.getModelObject();
+			final Product product = listItem.getModelObject();
 			listItem.add(new Label("productSerial", product.getSerialNumber()));
 			listItem.add(new Label("productName", product.getName()));
 			listItem.add(new Label("productPrice", product.getPrice()));
 
-//			Label imagelbl = new Label(
-//					"productImage",
-//					"<img src=\""
-//							+ "http://www.infendo.com/wp-content/uploads/2008/09/3951-hdd.jpg"
-//							+ "\" width=\"134\" height=\"134\" />");
-//			imagelbl.setEscapeModelStrings(false);
-//			listItem.add(imagelbl);
-			listItem.add(new Image("productImage", new PackageResourceReference(ProductsPanel.class, "/images/products/" + product.getImagePath())));
 			listItem.add(new StockLink("stockLink"));
 			
+			listItem.add(new NonCachingImage("productImage", new ReadImageModel(product)));
 		}
 	}
 	

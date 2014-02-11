@@ -18,7 +18,7 @@ public class Product extends AEntity {
 	@Column(name = "amount", precision = 19, scale = 2)
 	private BigDecimal price;
 	private String imagePath;
-
+	
 	public Product(String serialNumber, String name, BigDecimal price, Company company){
 		setSerialNumber(serialNumber);
 		setName(name);

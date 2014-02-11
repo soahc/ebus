@@ -8,24 +8,26 @@ import javax.persistence.ManyToOne;
 public class StockItem extends AEntity {
 
 	private static final long serialVersionUID = 8724417543214530634L;
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Stock stock;
+	//@ManyToOne(fetch = FetchType.LAZY)
+	private long stock_id;
 	private String productSerialNumber;
 	private int count;
 	
 	public StockItem(){}
 	
-	public StockItem(Stock stock,String productSerialNumber){
-		setStock(stock);
+	public StockItem(long stockID, String productSerialNumber){
+		setStock_id(stockID);
 		setProductSerialNumber(productSerialNumber);
 	}
 	
-	public Stock getStock() {
-		return stock;
+	public long getStock_id() {
+		return stock_id;
 	}
-	public void setStock(Stock stock) {
-		this.stock = stock;
+
+	public void setStock_id(long stock_id) {
+		this.stock_id = stock_id;
 	}
+
 	public String getProductSerialNumber() {
 		return productSerialNumber;
 	}
