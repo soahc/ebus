@@ -1,6 +1,8 @@
 #!/usr/bin/python
-#	installFeatures - downloads servicemix, deploys features, deploys emarket bundles
-#	redeploy        - redeploy emarket bundles
+#	installSMX4  - downloads servicemix 4, deploys features, deploys emarket bundles
+#	installSMX5  - downloads servicemix 4, deploys features, deploys emarket bundles, camel bundle
+#	redeploySMX4 - redeploy emarket bundles, except camel bundle
+#   redeploySMX5 - redeploy emarket bundles
 
 import subprocess
 import os 
@@ -23,19 +25,21 @@ if (isPosix):
 # -----------------------------------------------------
 
 class Artefect:
-	def __init__(self, groupId, artifactId, version):
+	def __init__(self, groupId, artifactId, version,smxtype):
 		self.groupId = groupId
 		self.artifactId = artifactId
 		self.version = version
+		self.version = version
+		self.smxtype = smxtype
 	def getJar(self):
 		return self.artifactId+"-"+self.version+".jar"
 
 bundles = [
-Artefect("de.ebus.emarket","persistence","0.0.1-SNAPSHOT"),
-Artefect("de.ebus.emarket","api","0.0.1-SNAPSHOT"),
-Artefect("de.ebus.emarket","server","0.0.1-SNAPSHOT"),
-Artefect("de.ebus.emarket","frontend","0.0.1-SNAPSHOT"),
-#Artefect("de.ebus.emarket","camelimport","1.0-SNAPSHOT"),
+Artefect("de.ebus.emarket","persistence","0.0.1-SNAPSHOT",1),
+Artefect("de.ebus.emarket","api","0.0.1-SNAPSHOT",1),
+Artefect("de.ebus.emarket","server","0.0.1-SNAPSHOT",1),
+Artefect("de.ebus.emarket","frontend","0.0.1-SNAPSHOT",1),
+Artefect("de.ebus.emarket","camelimport","1.0-SNAPSHOT",2),
 ]
 
 # -----------------------------------------------------
@@ -81,6 +85,14 @@ def downloadFile(url,path):
 def startWindowsSMX(smxPath):
 	os.system("start cmd /c "+smxPath+"bin/servicemix.bat")
 
+def printOptions():
+    print("\noptions: ")
+    print(" installSMX4   - downloads servicemix, deploys features, deploys emarket bundles")
+    print(" installSMX5   - downloads servicemix 4, deploys features, deploys emarket bundles, camel bundle")
+    print(" redeploySMX4  - redeploy emarket bundles, except camel bundle")
+    print(" redeploySMX5  - redeploy emarket bundles")
+    
+
 splitext = os.path.splitext
 
 # -----------------------------------------------------
@@ -88,13 +100,19 @@ splitext = os.path.splitext
 user = getpass.getuser()
 dist=platform.dist()[0]
 plattform=platform.platform()
-smxURL = 'http://www.eng.lsu.edu/mirrors/apache/servicemix/servicemix-4/4.5.3/apache-servicemix-full-4.5.3.tar.gz' if (isPosix) else 'http://mirror.nexcess.net/apache/servicemix/servicemix-4/4.5.3/apache-servicemix-full-4.5.3.zip'
+smx4URL = 'http://www.eng.lsu.edu/mirrors/apache/servicemix/servicemix-4/4.5.3/apache-servicemix-full-4.5.3.tar.gz' if (isPosix) else 'http://mirror.nexcess.net/apache/servicemix/servicemix-4/4.5.3/apache-servicemix-full-4.5.3.zip'
+smx5URL = 'https://repository.apache.org/service/local/repositories/snapshots/content/org/apache/servicemix/apache-servicemix-full/5.0.0-SNAPSHOT/apache-servicemix-full-5.0.0-20140102.064021-12.tar.gz' if (isPosix) else 'https://repository.apache.org/service/local/repositories/snapshots/content/org/apache/servicemix/apache-servicemix-full/5.0.0-SNAPSHOT/apache-servicemix-full-5.0.0-20140102.064021-12.zip'
 optPath = '/opt2/' if (isPosix) else 'c:/opt2/'
 dataPath = '/data/' if (isPosix) else 'c:/data/'
-extractPath = optPath+'/apache-servicemix-4.5.3/'
+smx4Folder = '/apache-servicemix-4.5.3/'
+smx5Folder = '/apache-servicemix-5.0.0-SNAPSHOT/'
+extractsmx4Path = optPath+smx4Folder
+extractsmx5Path = optPath+smx5Folder
+extractPath = optPath+smx4Folder
 emarketPath = dataPath+'emarket'
 smxPath = optPath+'apache-servicemix/'
 deployPath = smxPath+'deploy/'
+isForSMX5 = False
 installing = False
 
 # -----------------------------------------------------
@@ -104,66 +122,74 @@ if sys.version_info < (2, 7):
 	log ('Python Version must be >= 2.7')
 	quit()
 
-log ('BuildScript v1.0','***')
+log ('BuildScript v1.3','***')
 
 if ((len(sys.argv)==1) or (len(sys.argv)>2)):
-	print("\nparameter: ")
-	print(" installFeatures - downloads servicemix, deploys features, deploys emarket bundles")
-	print(" redeploy        - redeploy emarket bundles")
-	quit()
+    printOptions()
+    quit()
 
-if len(sys.argv)>1:
-	if sys.argv[1]=='installFeatures':
-		
-		installing = True
+startOption = sys.argv[1]
 
-		if not os.path.isdir(optPath):
-			log ('* create folder '+optPath)
-			if (isPosix):
-				subprocess.call(['sudo', 'mkdir', optPath])
-				if not os.path.isdir(dataPath):
-					subprocess.call(['sudo', 'mkdir', dataPath])
-				stat_info = os.stat(optPath)
-				if not pwd.getpwuid(stat_info.st_uid)[0] == user:
-					subprocess.call(['sudo', 'chown', user, optPath])
-					subprocess.call(['sudo', 'chown', user, dataPath])
+if not startOption in ("installSMX4", "installSMX5", "redeploySMX4", "redeploySMX5"):
+    printOptions()
+    quit()
 
-			else:
-				os.makedirs(optPath)
-				if not os.path.isdir(dataPath):
-					os.makedirs(dataPath)
+isForSMX5 = startOption=='redeploySMX5' or startOption=='installSMX5'
+featuresFileName = "features5.xml" if (isForSMX5) else "features4.xml"
 
-			log ('* create folder '+emarketPath)
-			os.makedirs(emarketPath)
+if startOption=='installSMX4' or startOption=='installSMX5':
+    smxurl = smx5URL if (isForSMX5) else smx4URL
+    extractPath = extractsmx5Path if (isForSMX5) else extractsmx4Path
+    installing = True
 
-		if not os.path.isdir(smxPath):
-			log ('* download servicemix archive')
-			archive = downloadFile(smxURL,optPath) #optPath+'apache-servicemix-full-4.5.3.zip' 
-			log ('* extract servicemix archive')
-			if isPosix:
-				tar = tarfile.open(archive)
-				tar.extractall(optPath)
-				tar.close()
-			else:
-				unzip(archive,optPath)
+    if not os.path.isdir(optPath):
+        log ('* create folder '+optPath)
+        if (isPosix):
+            subprocess.call(['sudo', 'mkdir', optPath])
+            if not os.path.isdir(dataPath):
+				subprocess.call(['sudo', 'mkdir', dataPath])
+			
+            stat_info = os.stat(optPath)
+            if not pwd.getpwuid(stat_info.st_uid)[0] == user:
+				subprocess.call(['sudo', 'chown', user, optPath])
+				subprocess.call(['sudo', 'chown', user, dataPath])
+        else:
+			os.makedirs(optPath)
+			if not os.path.isdir(dataPath):
+				os.makedirs(dataPath)
 
-			os.rename(extractPath,smxPath)
-			os.remove(archive)
+        log ('* create folder '+emarketPath)
+        os.makedirs(emarketPath)
 
-		log ('* run servicemix')
-		if isPosix: 
-			if (dist == 'Ubuntu'):
-				subprocess.Popen(["gnome-terminal --command='"+smxPath+"bin/servicemix"+"'"], shell=True)
-
-			if 'Darwin' in plattform:
-				subprocess.call(["open" ,"-a","Terminal",smxPath+"bin/servicemix"]);
+    if not os.path.isdir(smxPath):
+		log ('* download servicemix archive')
+		archive = downloadFile(smxurl,optPath) 
+		log ('* extract servicemix archive')
+		if isPosix:
+			tar = tarfile.open(archive)
+			tar.extractall(optPath)
+			tar.close()
 		else:
-			thread.start_new_thread(startWindowsSMX,(smxPath,))
+			unzip(archive,optPath)
 
-		progressSleep(5)
-		log ("- deploy feature.xml")
-		shutil.copy("features.xml", deployPath+"features.xml" )
-		progressSleep(30)
+		os.rename(extractPath,smxPath)
+		os.remove(archive)
+
+    log ('* run servicemix')
+    if isPosix: 
+		if (dist == 'Ubuntu'):
+			subprocess.Popen(["gnome-terminal --command='"+smxPath+"bin/servicemix"+"'"], shell=True)
+
+		if 'Darwin' in plattform:
+			subprocess.call(["open" ,"-a","Terminal",smxPath+"bin/servicemix"]);
+    else:
+		thread.start_new_thread(startWindowsSMX,(smxPath,))
+	
+    progressSleep(5)
+    log ("- deploy feature.xml")
+
+    shutil.copy(featuresFileName, deployPath+featuresFileName)
+    progressSleep(30)
 
 # -----------------------------------------------------
 
@@ -188,17 +214,18 @@ log ('* start deployment')
 if not installing:
 	for pathentry in os.walk(deployPath, False):
 		for file in pathentry[2]:
-			if (file!='features.xml'):
+			if (file!=featuresFileName):
 				path = os.path.join(pathentry[0], file)
 				os.unlink(path)
 
 for artefect in bundles:
-	jarName = artefect.getJar()
-	fileSrc = artefect.artifactId+'/target/'+jarName
-	fileDst = deployPath+jarName
-	log ("- deploy "+artefect.getJar())
-	shutil.copy(fileSrc, fileDst)
-	time.sleep(1)
+	if isForSMX5 or artefect.smxtype==1:
+		jarName = artefect.getJar()
+		fileSrc = artefect.artifactId+'/target/'+jarName
+		fileDst = deployPath+jarName
+		log ("- deploy "+artefect.getJar())
+		shutil.copy(fileSrc, fileDst)
+		time.sleep(1)
 	
 log ('* deployment successfull')
 

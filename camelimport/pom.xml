@@ -117,6 +117,7 @@
 							org.apache.camel.builder,
 							org.apache.camel.component.jpa,
 							org.apache.camel.model,
+							javax.persistence.criteria,
 							*
 						</Import-Package>
 					</instructions>
