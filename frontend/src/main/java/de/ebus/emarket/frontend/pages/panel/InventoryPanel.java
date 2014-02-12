@@ -126,7 +126,7 @@ public class InventoryPanel extends ExtendedPanel{
 				provider.getStockItemDAO().removeFromStock(value.getId(), value.getValue());	
 			}
 			System.out.println("==> " + value.getId() + " : " + value.getValue());
-			setResponsePage(HomePage.class);
+			//setResponsePage(HomePage.class);
 	    }
 		
 		private class UnitChange{
