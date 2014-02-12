@@ -26,7 +26,7 @@
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Export-Package>
-						de.ebus.emarket.persistence.entities
+							de.ebus.emarket.persistence.entities
 						</Export-Package>
 						<Import-Package>
 							*

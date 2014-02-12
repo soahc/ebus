@@ -127,26 +127,33 @@ public class LoginPage extends ExtendedWebPage {
 		private String getUploadFolder() {
 			String OS = System.getProperty("os.name").toLowerCase();
 			if ((OS.indexOf("win") >= 0)) {
-				return "C:\\data\\emarketImages\\images\\products";
+				return "C:\\data\\emarketImages\\images\\products\\";
 			} else {
-				return "/data/emarketImages/images/products";
+				return "/data/emarketImages/images/products/";
+			}
+		}
+		
+		private String getFileSeparate() {
+			String OS = System.getProperty("os.name").toLowerCase();
+			if ((OS.indexOf("win") >= 0)) {
+				return "\\";
+			} else {
+				return "/";
 			}
 		}
 		
 		private String moveImage(Product product, String imagename){
 
-			File folder = new File(getUploadFolder() + "\\" + product.getCompany().getId());
+			File folder = new File(getUploadFolder() + product.getCompany().getId());
 			if( !folder.exists() ) {
-				System.out.println("===> Folder");
+				//System.out.println("===> Folder");
 				if(!folder.mkdirs()){
 					System.out.println("===> Folder creat failed");
 				}
 				
 			}
-			File file = new File(getUploadFolder() + "\\" + imagename);
-			File move = new File(getUploadFolder() + "\\" + product.getCompany().getId() + "\\" + product.getId()+ "-" + imagename);
-			System.out.println("===> " + file.getAbsolutePath());
-			System.out.println("===> " + move.getAbsolutePath());
+			File file = new File(getUploadFolder() + imagename);
+			File move = new File(getUploadFolder() + product.getCompany().getId() + getFileSeparate() + imagename);
 			String result;
 			if (move.exists()) {
 				move.delete();
@@ -154,14 +161,10 @@ public class LoginPage extends ExtendedWebPage {
 			try {
 				move.write(file);
 				move.createNewFile();
-				result = move.getAbsolutePath();
+				result = product.getCompany().getId() + getFileSeparate() + imagename;
 			} catch (IOException e) {
 				e.printStackTrace();
-				if ((System.getProperty("os.name").toLowerCase().indexOf("win") >= 0)) {
-    	    		result = getUploadFolder() + "\\default.jpg";
-    			} else {
-    				result = getUploadFolder() + "\\default.jpg";
-    			}
+				result = "default.jpg";
 			}
 			
 			return result;

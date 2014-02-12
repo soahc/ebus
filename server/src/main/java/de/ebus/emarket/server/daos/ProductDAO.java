@@ -26,6 +26,10 @@ public class ProductDAO extends DAO implements IProductDAO {
 
 	@Override
 	public Product readProductBySerialnumber(String sn, long comanyID) {
-		return (Product) readByJPQL("SELECT p FROM Product p WHERE p.serialNumber = '" + sn + "' AND p.company.id = " + comanyID).get(0);
+		List<Product> products =  readByJPQL("SELECT p FROM Product p WHERE p.serialNumber = '" + sn + "' AND p.company.id = " + comanyID);
+		if (products.isEmpty()) {
+			return null;
+		}
+		return products.get(0);
 	}	
 }

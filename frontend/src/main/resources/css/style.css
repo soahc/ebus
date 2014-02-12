@@ -109,6 +109,29 @@ a.buttonstock:hover {
         color: #002E40;
 }
 
+a.buttonremove {
+        cursor: pointer;
+        position: absolute;
+        bottom: 100px;
+        right: 5px;
+        background: url(../images/cartsmaller.png) 7px 12px no-repeat;
+        background-color: #225799;
+        font-family: Tahoma, Geneva, sans-serif, sans-serif;
+        /*border-bottom: 2px solid #FF6761;*/
+        color: #000;
+        padding: 10px 15px 10px 15px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        font-
+}
+a.buttonremove:hover {
+        padding: 10px 15px 10px 31px;
+        background: url(../images/cartsmaller.png) 7px 12px no-repeat;
+        background-color: #3C8DCB;
+        color: #002E40;
+}
+
 .stock {
         width: 450px;
         border: 2px solid rgba(34, 88, 153, .2);

@@ -2,7 +2,6 @@ package de.ebus.emarket.api;
 
 import java.util.List;
 
-import de.ebus.emarket.persistence.entities.Stock;
 import de.ebus.emarket.persistence.entities.StockItem;
 
 public interface IStockItemDAO extends IDAO {
@@ -11,4 +10,5 @@ public interface IStockItemDAO extends IDAO {
 	List<StockItem> readAllFromStock(final long id);
 	StockItem addToStock(long id, int units);
 	StockItem removeFromStock(long id, int units);
+	public abstract void deleteAllBySerialNumber(String sn);
 }

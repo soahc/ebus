@@ -19,9 +19,13 @@
 										<div class="price">
 											<span wicket:id="stockItemPrice"></span> &euro;
 										</div>  -->
-										<div class="price">
-											Units: <span wicket:id="stockItemUnits"></span>
-										</div>
+										<form wicket:id="units_edit">
+											<div class="price">
+												Units:  <span wicket:id="stockItemUnits"></span><br>
+	    										+/-: <input wicket:id="stockItemUnitChange" type="number" size="5" maxlength="5" >
+												<input value="Change" type="submit" />
+											</div>
+    									</form>
 									</div>
 								</div>
 							</li>

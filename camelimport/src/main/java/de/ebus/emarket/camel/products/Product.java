@@ -23,6 +23,9 @@ public class Product extends AEntity {
 	@DataField(pos = 3, precision = 2, required=true)
 	@Column(name = "amount", precision = 19, scale = 2)
 	private BigDecimal price;
+	@DataField(pos = 4, required=true)
+	private String imagePath;
+	
 	
 	public Product(String serialNumber, String name, BigDecimal price, long company_id){
 		setSerialNumber(serialNumber);
@@ -65,6 +68,14 @@ public class Product extends AEntity {
 		this.price = price;
 	}
 	
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
 	@Override
 	public String toString(){
 		return "companyID: " +company_id + ", serialnumber: "+ serialNumber + ", name: " + name + ", price: "+price;

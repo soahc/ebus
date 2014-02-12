@@ -34,7 +34,7 @@ public class ReadImageModel extends AbstractReadOnlyModel<DynamicImageResource> 
 				@Override 
 				protected byte[] getImageData(Attributes attributes) {
 	                  byte[] imageBytes = null;
-	                  imageBytes = getImageAsBytes(product.getImagePath());
+	                  imageBytes = getImageAsBytes(getUploadFolder() + product.getImagePath());
 	
 	                  return imageBytes;
 	              }
@@ -68,5 +68,14 @@ public class ReadImageModel extends AbstractReadOnlyModel<DynamicImageResource> 
         }
         source.close();
         destination.close();
+	}
+	
+	private String getUploadFolder() {
+		String OS = System.getProperty("os.name").toLowerCase();
+		if ((OS.indexOf("win") >= 0)) {
+			return "C:\\data\\emarketImages\\images\\products\\";
+		} else {
+			return "/data/emarketImages/images/products/";
+		}
 	}
 }

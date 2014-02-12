@@ -3,8 +3,12 @@ package de.ebus.emarket.server.daos;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import de.ebus.emarket.api.IStockItemDAO;
 import de.ebus.emarket.persistence.entities.AEntity;
+import de.ebus.emarket.persistence.entities.Product;
 import de.ebus.emarket.persistence.entities.Stock;
 import de.ebus.emarket.persistence.entities.StockItem;
 
@@ -43,15 +47,15 @@ public class StockItemDAO extends DAO implements IStockItemDAO {
 
 	@Override
 	public List<StockItem> readAllFromStock(final long id) {
-		/*List<StockItem> items = readByJPQL("SELECT c FROM StockItem c");
-		List<StockItem> result = new ArrayList<StockItem>();
-		for (StockItem stockItem : items) {
-			if(stockItem.getStock().equals(stock)){
-				result.add(stockItem);
-			}
-		}
-		return result;*/
 		return readByJPQL("SELECT c FROM StockItem c WHERE c.stock_id = " + id);
+	}
+
+	@Override
+	public void deleteAllBySerialNumber(String sn) {
+		List<StockItem> stockItems = readByJPQL("SELECT s FROM StockItem s where s.productSerialNumber = '" + sn + "'");
+		for (StockItem item : stockItems) {			
+			delete(item);
+		}
 	}
 
 }

@@ -1,10 +1,8 @@
 package de.ebus.emarket.frontend.pages.panel;
 
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -12,22 +10,30 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.NonCachingImage;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.request.resource.ContextRelativeResource;
-import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.request.resource.PackageResourceReference;
-import org.apache.wicket.util.io.ByteArrayOutputStream;
-import org.apache.wicket.util.string.StringValue;
+import org.apache.wicket.util.collections.MostRecentlyUsedMap;
+import org.apache.wicket.util.file.File;
 import org.ops4j.pax.wicket.api.PaxWicketBean;
 
+import de.ebus.emarket.api.ICompanyDAO;
 import de.ebus.emarket.api.IDAOProvider;
+import de.ebus.emarket.api.IProductDAO;
+import de.ebus.emarket.api.IStockDAO;
+import de.ebus.emarket.api.IStockItemDAO;
+import de.ebus.emarket.api.ISystemUserDAO;
 import de.ebus.emarket.frontend.ServiceProvider;
+import de.ebus.emarket.frontend.pages.HomePage;
 import de.ebus.emarket.frontend.pages.panel.Image.ReadImageModel;
 import de.ebus.emarket.persistence.entities.Company;
 import de.ebus.emarket.persistence.entities.Product;
+import de.ebus.emarket.persistence.entities.Stock;
+import de.ebus.emarket.persistence.entities.StockItem;
+import de.ebus.emarket.persistence.entities.SystemUser;
 
 public class ProductsPanel extends ExtendedPanel {
 
@@ -55,18 +61,21 @@ public class ProductsPanel extends ExtendedPanel {
 		@Override
 		protected void populateItem(ListItem<Product> listItem) {
 			final Product product = listItem.getModelObject();
+			
 			listItem.add(new Label("productSerial", product.getSerialNumber()));
 			listItem.add(new Label("productName", product.getName()));
 			listItem.add(new Label("productPrice", product.getPrice()));
-
 			listItem.add(new StockLink("stockLink"));
-			
 			listItem.add(new NonCachingImage("productImage", new ReadImageModel(product)));
+			
+			listItem.add(new ProductRemove("productRemove", new Model<Product>(product), listItem));
 		}
 	}
 	
 	private class StockLink extends AjaxLink<Void>{
 		
+		private static final long serialVersionUID = 6624153382128391067L;
+
 		public StockLink(String id) {
 			super(id);
 		}
@@ -76,4 +85,31 @@ public class ProductsPanel extends ExtendedPanel {
 			System.out.println("ITEM: ");		
 		}
 	};
+	
+	private class ProductRemove extends Link<Product> {
+		
+		ListItem<Product> listItem;
+		
+		public ProductRemove(String id, IModel<Product> product, ListItem<Product> listItem) {
+			super(id, product);
+			this.listItem = listItem;
+		}
+
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void onClick() {
+			Product product = getModelObject();
+			System.out.println("==> Remove: " + product.getId());
+			IDAOProvider daoProvider = serviceProvider.getDaoProvider();
+			IProductDAO productDAO = daoProvider.getProductDAO();
+			IStockItemDAO stockItemDAO = daoProvider.getStockItemDAO();
+			
+			stockItemDAO.deleteAllBySerialNumber(product.getSerialNumber());
+
+			productDAO.delete(product);
+			setResponsePage(HomePage.class);
+		}
+		
+	}
 }
