@@ -11,7 +11,7 @@ public class CompanyDAO extends DAO implements ICompanyDAO {
 	public Class<? extends AEntity> getEntityClass() {
 		return Company.class;
 	}
-	
+
 	@Override
 	public Company readCompany(long id) {
 		return getEntityManager().find(Company.class, id);
@@ -19,6 +19,6 @@ public class CompanyDAO extends DAO implements ICompanyDAO {
 
 	@Override
 	public Company readCompanyFromUser(SystemUser user) {
-		return (Company) readByJPQL("SELECT u.company FROM SystemUser u where u.id="+user.getId()).get(0);
+		return (Company) readByJPQL("SELECT u.company FROM SystemUser u where u.id=" + user.getId()).get(0);
 	}
 }

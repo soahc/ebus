@@ -16,26 +16,26 @@ public class Product extends AEntity {
 	private static final long serialVersionUID = -4503595932183481371L;
 
 	private long company_id;
-	@DataField(pos = 1, required=true)
+	@DataField(pos = 1, required = true)
 	private String serialNumber;
-	@DataField(pos = 2, required=true)
+	@DataField(pos = 2, required = true)
 	private String name;
-	@DataField(pos = 3, precision = 2, required=true)
+	@DataField(pos = 3, precision = 2, required = true)
 	@Column(name = "amount", precision = 19, scale = 2)
 	private BigDecimal price;
-	@DataField(pos = 4, required=true)
+	@DataField(pos = 4, required = true)
 	private String imagePath;
-	
-	
-	public Product(String serialNumber, String name, BigDecimal price, long company_id){
+
+	public Product(String serialNumber, String name, BigDecimal price, long company_id) {
 		setSerialNumber(serialNumber);
 		setName(name);
 		setPrice(price);
 		setCompany_id(company_id);
 	}
-	
-	public Product(){}
-	
+
+	public Product() {
+	}
+
 	public long getCompany_id() {
 		return company_id;
 	}
@@ -67,7 +67,7 @@ public class Product extends AEntity {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-	
+
 	public String getImagePath() {
 		return imagePath;
 	}
@@ -77,7 +77,7 @@ public class Product extends AEntity {
 	}
 
 	@Override
-	public String toString(){
-		return "companyID: " +company_id + ", serialnumber: "+ serialNumber + ", name: " + name + ", price: "+price;
+	public String toString() {
+		return "companyID: " + company_id + ", serialnumber: " + serialNumber + ", name: " + name + ", price: " + price;
 	}
 }

@@ -8,8 +8,8 @@ public class ExtendedWebPage extends WebPage {
 
 	private static final long serialVersionUID = -1049612477125256506L;
 
-	protected AuthenticatedSession getAuthenticatedSession(){
+	protected AuthenticatedSession getAuthenticatedSession() {
 		return (AuthenticatedSession) getSession();
 	}
-	
+
 }

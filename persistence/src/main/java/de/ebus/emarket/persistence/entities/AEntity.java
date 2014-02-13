@@ -49,11 +49,11 @@ public abstract class AEntity implements Serializable {
 	}
 
 	public long getId() {
-		return this.id;
+		return id;
 	}
 
 	public boolean isRemoved() {
-		return this.removed;
+		return removed;
 	}
 
 	protected void setId(final long id) {
@@ -71,4 +71,3 @@ public abstract class AEntity implements Serializable {
 		this.removed = removed;
 	}
 }
-

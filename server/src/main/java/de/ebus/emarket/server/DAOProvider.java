@@ -10,20 +10,20 @@ import de.ebus.emarket.api.ISystemUserDAO;
 public class DAOProvider implements IDAOProvider {
 
 	private ISystemUserDAO systemUserDAO;
-	private IProductDAO productDAO; 
+	private IProductDAO productDAO;
 	private ICompanyDAO companyDAO;
 	private IStockDAO stockDAO;
 	private IStockItemDAO stockItemDAO;
-	
+
 	public void setSystemUserDAO(ISystemUserDAO systemUserDAO) {
 		this.systemUserDAO = systemUserDAO;
 	}
-	
+
 	@Override
 	public ISystemUserDAO getSystemUserDAO() {
 		return systemUserDAO;
 	}
-	
+
 	@Override
 	public IProductDAO getProductDAO() {
 		return productDAO;
@@ -32,7 +32,7 @@ public class DAOProvider implements IDAOProvider {
 	public void setProductDAO(IProductDAO productDAO) {
 		this.productDAO = productDAO;
 	}
-	
+
 	@Override
 	public ICompanyDAO getCompanyDAO() {
 		return companyDAO;
@@ -41,7 +41,7 @@ public class DAOProvider implements IDAOProvider {
 	public void setCompanyDAO(ICompanyDAO companyDAO) {
 		this.companyDAO = companyDAO;
 	}
-	
+
 	@Override
 	public IStockDAO getStockDAO() {
 		return stockDAO;

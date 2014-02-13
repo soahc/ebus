@@ -13,23 +13,23 @@ public class ProductDAO extends DAO implements IProductDAO {
 	public Class<? extends AEntity> getEntityClass() {
 		return Product.class;
 	}
-	
+
 	@Override
 	public Product readProduct(long id) {
 		return getEntityManager().find(Product.class, id);
 	}
-	
+
 	@Override
-	public List<Product> readAllFromCompany(Company company){
+	public List<Product> readAllFromCompany(Company company) {
 		return readByJPQL("SELECT p FROM Product p WHERE p.company.id = " + company.getId());
 	}
 
 	@Override
 	public Product readProductBySerialnumber(String sn, long comanyID) {
-		List<Product> products =  readByJPQL("SELECT p FROM Product p WHERE p.serialNumber = '" + sn + "' AND p.company.id = " + comanyID);
+		final List<Product> products = readByJPQL("SELECT p FROM Product p WHERE p.serialNumber = '" + sn + "' AND p.company.id = " + comanyID);
 		if (products.isEmpty()) {
 			return null;
 		}
 		return products.get(0);
-	}	
+	}
 }
