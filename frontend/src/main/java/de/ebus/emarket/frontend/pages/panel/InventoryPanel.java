@@ -123,10 +123,9 @@ public class InventoryPanel extends ExtendedPanel{
 			if (value.getValue() > 0) {
 				provider.getStockItemDAO().addToStock(value.getId(), value.getValue());
 			} else {
-				provider.getStockItemDAO().removeFromStock(value.getId(), value.getValue());	
+				provider.getStockItemDAO().removeFromStock(value.getId(), -value.getValue());	
 			}
 			System.out.println("==> " + value.getId() + " : " + value.getValue());
-			//setResponsePage(HomePage.class);
 	    }
 		
 		private class UnitChange{

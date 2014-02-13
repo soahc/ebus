@@ -20,6 +20,7 @@
     	<bundle>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.java-persistence-api-2.0/2.3.0</bundle>  
     	<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.serp/1.14.1_1</bundle>
     	<bundle>mvn:it.cnr.isti.domoware/org.postgresql.jdbc4/8.3-603</bundle>
+		<bundle>mvn:mysql/mysql-connector-java/5.1.18</bundle>
 	</feature>
 </features>
 

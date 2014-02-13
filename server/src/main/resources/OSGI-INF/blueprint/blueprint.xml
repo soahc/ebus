@@ -53,12 +53,18 @@
     </service> 
     
     <!-- Stock -->
-	<bean id="dataSourceStock" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<!-- bean id="dataSourceStock" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver" />
         <property name="url" value="jdbc:postgresql://localhost/stock" />
         <property name="username" value="postgres" />
         <property name="password" value="smx" />
-    </bean>
+    </bean-->
+    <bean id="dataSourceStock" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	  <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+	  <property name="url" value="jdbc:mysql://localhost/stock"/>
+	  <property name="username" value="ebus"/>
+	  <property name="password" value="smx"/>
+	</bean>
 	
     <service id="DSS" ref="dataSourceStock" interface="javax.sql.DataSource">
         <service-properties>
