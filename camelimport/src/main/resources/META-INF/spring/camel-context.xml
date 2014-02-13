@@ -31,18 +31,20 @@
 
 	<!-- Camel processor -->
 	<bean id="IDAdderProcessor" class="de.ebus.emarket.camel.processor.CompanyIDAdder" />
+	<bean id="IDSaverProcessor" class="de.ebus.emarket.camel.processor.CompanyIDSaver" />
 
 	<camel:camelContext>
 		<camel:contextScan />
 
 		<camel:route id="unzipMultipleFiles">
 			<camel:from
-				uri="file:///data/emarket/?delay=1000&amp;noop=false&amp;idempotent=false" />
+				uri="file:///data/emarket/?delay=1000&amp;noop=true&amp;idempotent=false" />
 			<camel:unmarshal ref="zipFileDataFormat" />
 			<camel:log message="TEST: ${file:name}" loggingLevel="WARN" />
 			<camel:setProperty propertyName="zipFileName">
 				<camel:simple>${file:name}</camel:simple>
 			</camel:setProperty>
+			<camel:process ref="IDSaverProcessor" />
 			<camel:split streaming="true">
 				<camel:simple>${body}</camel:simple>
 				<camel:to
@@ -56,7 +58,7 @@
 					<camel:when>
 						<camel:simple>${file:name} contains '.jpg'</camel:simple>
 						<camel:to
-							uri="file:///data/emarketImages/images/products/?fileName=${file:name}/" />
+							uri="file:///data/emarketImages/images/products/?fileName=${property.companyId}/${file:name}/" />
 					</camel:when>
 				</camel:choice>
 			</camel:split>
