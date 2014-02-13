@@ -38,7 +38,7 @@
 
 		<camel:route id="unzipMultipleFiles">
 			<camel:from
-				uri="file:///data/emarket/?delay=1000&amp;noop=true&amp;idempotent=false" />
+				uri="file:///data/emarket/?delay=1000&amp;noop=false&amp;idempotent=false" />
 			<camel:unmarshal ref="zipFileDataFormat" />
 			<camel:log message="TEST: ${file:name}" loggingLevel="WARN" />
 			<camel:setProperty propertyName="zipFileName">
