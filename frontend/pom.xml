@@ -65,7 +65,8 @@
 							org.osgi.service.blueprint,
 							org.apache.wicket.core.request.mapper,
 							org.apache.wicket.markup.html.form,
-							org.postgresql,
+							<!-- org.postgresql,
+							com.mysql, -->
 							*
 						</Import-Package>
 					</instructions>
@@ -109,12 +110,18 @@
 		 	<version>0.0.1-SNAPSHOT</version>
 		 	<type>bundle</type>
 		 </dependency>
-		 <dependency>
+		 <!-- dependency>
              <groupId>it.cnr.isti.domoware</groupId>
              <artifactId>org.postgresql.jdbc4</artifactId>
              <version>8.3-603</version>
              <type>bundle</type>
          </dependency>
+         <dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.18</version>
+			<type>bundle</type>
+		</dependency -->
          <!-- dependency>
 		     <groupId>org.apache.wicket</groupId>
 		     <artifactId>wicket-auth-roles</artifactId>
