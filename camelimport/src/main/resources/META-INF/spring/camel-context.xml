@@ -55,6 +55,8 @@
 						<camel:to
 							uri="file:///data/extracted/?fileName=${property.zipFileName}/${file:name}/" />
 					</camel:when>
+				</camel:choice>
+				<camel:choice>	
 					<camel:when>
 						<camel:simple>${file:name} contains '.jpg'</camel:simple>
 						<camel:to
@@ -76,10 +78,12 @@
 							<camel:simple>${file:name} contains 'products'</camel:simple>
 							<camel:to uri="direct:unmarshalproducts" />
 						</camel:when>
-						<camel:when>
+						</camel:choice>
+						<camel:choice>
+					 	<camel:when>
 							<camel:simple>${file:name} contains 'stock'</camel:simple>
 							<camel:to uri="direct:unmarshalstock" />
-						</camel:when>
+						</camel:when> 
 					</camel:choice>
 				</camel:filter>
 			</camel:split>
