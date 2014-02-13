@@ -22,6 +22,7 @@
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider> 
 		<class>de.ebus.emarket.camel.entities.AEntity</class>
 		<class>de.ebus.emarket.camel.entities.StockItem</class>
+		<class>de.ebus.emarket.camel.entities.Stock</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver" />

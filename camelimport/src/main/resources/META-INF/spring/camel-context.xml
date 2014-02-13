@@ -32,6 +32,7 @@
 	<!-- Camel processor -->
 	<bean id="IDAdderProcessor" class="de.ebus.emarket.camel.processor.CompanyIDAdder" />
 	<bean id="IDSaverProcessor" class="de.ebus.emarket.camel.processor.CompanyIDSaver" />
+	<bean id="StockIDAdderProcessor" class="de.ebus.emarket.camel.processor.StockIDAdder" />
 
 	<camel:camelContext>
 		<camel:contextScan />
@@ -113,7 +114,7 @@
 			<camel:setProperty propertyName="csvFileName">
 				<camel:simple>${file:name}</camel:simple>
 			</camel:setProperty>
-
+			<camel:process ref="StockIDAdderProcessor" />
 			<camel:log message="Stockitemdetails are ${body}"
 				loggingLevel="WARN" />
 			<camel:to uri="jpaStock://de.ebus.emarket.camel.entities.StockItem" />
