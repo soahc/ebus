@@ -2,6 +2,7 @@ package de.ebus.emarket.camel.entities;
 
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
@@ -12,6 +13,7 @@ public class StockItem extends AEntity {
 
 	private static final long serialVersionUID = 8724417543214530634L;
 	@DataField(pos = 1, required=true)
+	@Transient
 	private String stockName;
 	private long stock_id;
 	@DataField(pos = 2, required=true)
@@ -26,6 +28,10 @@ public class StockItem extends AEntity {
 		setProductSerialNumber(productSerialNumber);
 	}
 	
+	public String getStockName() {
+		return stockName;
+	}
+
 	public long getStock_id() {
 		return stock_id;
 	}
@@ -48,7 +54,7 @@ public class StockItem extends AEntity {
 	}
 	@Override
 	public String toString(){
-		return "stock id: " + stock_id + " SerialNumber:" + productSerialNumber + "amount: "+ count;
+		return "stock id: " + stock_id + " stockname " + getStockName() + " SerialNumber:" + productSerialNumber + "amount: "+ count;
 	}
 }
 
