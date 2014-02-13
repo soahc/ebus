@@ -1,0 +1,25 @@
+install Maven 2
+install Python 2.7
+install PostgresSQL 9.3
+install MySQL 5.6.15
+
+PostgresSQL:
+	login:
+		name: 		postgres
+		password: 	smx
+	Database:
+		products
+		
+MySQL:
+	login:
+		name: 		ebus
+		password: 	smx
+	Database:
+		stock
+		
+run 
+	py buildAndUpdate.py installSMX5
+		is done:
+			-> download and Run Server
+			-> deploy projects
+			-> make data Folder
