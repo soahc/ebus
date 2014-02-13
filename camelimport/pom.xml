@@ -124,6 +124,7 @@
 							org.apache.camel.component.jpa,
 							org.apache.camel.model,
 							javax.persistence.criteria,
+							com.mysql.jdbc,
 							*
 						</Import-Package>
 					</instructions>
