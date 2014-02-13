@@ -56,6 +56,12 @@
 			<version>8.3-603</version>
 			<!--<type>bundle</type> -->
 		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.18</version>
+             <type>bundle</type>
+		</dependency>
 
 		<!-- logging -->
 		<dependency>
