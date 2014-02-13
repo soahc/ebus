@@ -104,6 +104,8 @@ smx4URL = 'http://www.eng.lsu.edu/mirrors/apache/servicemix/servicemix-4/4.5.3/a
 smx5URL = 'https://repository.apache.org/service/local/repositories/snapshots/content/org/apache/servicemix/apache-servicemix-full/5.0.0-SNAPSHOT/apache-servicemix-full-5.0.0-20140102.064021-12.tar.gz' if (isPosix) else 'https://repository.apache.org/service/local/repositories/snapshots/content/org/apache/servicemix/apache-servicemix-full/5.0.0-SNAPSHOT/apache-servicemix-full-5.0.0-20140102.064021-12.zip'
 optPath = '/opt2/' if (isPosix) else 'c:/opt2/'
 dataPath = '/data/' if (isPosix) else 'c:/data/'
+imageFolder = 'emarketImages'
+imageFolderPath = dataPath + imageFolder
 smx4Folder = '/apache-servicemix-4.5.3/'
 smx5Folder = '/apache-servicemix-5.0.0-SNAPSHOT/'
 extractsmx4Path = optPath+smx4Folder
@@ -122,7 +124,7 @@ if sys.version_info < (2, 7):
 	log ('Python Version must be >= 2.7')
 	quit()
 
-log ('BuildScript v1.3','***')
+log ('Install and Deploy Script v1.3','***')
 
 if ((len(sys.argv)==1) or (len(sys.argv)>2)):
     printOptions()
@@ -160,6 +162,11 @@ if startOption=='installSMX4' or startOption=='installSMX5':
 
         log ('* create folder '+emarketPath)
         os.makedirs(emarketPath)
+
+        if os.path.exists(imageFolderPath):
+            shutil.rmtree(imageFolderPath)
+        log ('* copy folder '+imageFolder+ '/ to ' + dataPath)
+        shutil.copytree(imageFolder, imageFolderPath)
 
     if not os.path.isdir(smxPath):
 		log ('* download servicemix archive')

@@ -11,7 +11,8 @@
 		<property name="entityManagerFactory" ref="emfProducts" />
 	</bean>
 
-	<bean id="emfProducts" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+	<bean id="emfProducts"
+		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="products-pu" />
 	</bean>
 
@@ -19,7 +20,8 @@
 		<property name="entityManagerFactory" ref="emfStock" />
 	</bean>
 
-	<bean id="emfStock" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+	<bean id="emfStock"
+		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="stock-pu" />
 	</bean>
 
@@ -45,8 +47,18 @@
 				<camel:simple>${body}</camel:simple>
 				<camel:to
 					uri="log:org.apache.camel?level=INFO&amp;showAll=true&amp;multiline=true" />
-				<camel:to
-					uri="file:///data/extracted/?fileName=${property.zipFileName}/${file:name}/" />
+				<camel:choice>
+					<camel:when>
+						<camel:simple>${file:name} contains '.csv'</camel:simple>
+						<camel:to
+							uri="file:///data/extracted/?fileName=${property.zipFileName}/${file:name}/" />
+					</camel:when>
+					<camel:when>
+						<camel:simple>${file:name} contains '.jpg'</camel:simple>
+						<camel:to
+							uri="file:///data/emarketImages/images/products/?fileName=${file:name}/" />
+					</camel:when>
+				</camel:choice>
 			</camel:split>
 		</camel:route>
 
