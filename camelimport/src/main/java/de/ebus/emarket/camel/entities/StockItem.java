@@ -12,6 +12,7 @@ public class StockItem extends AEntity {
 
 	private static final long serialVersionUID = 8724417543214530634L;
 	@DataField(pos = 1, required=true)
+	private String stockName;
 	private long stock_id;
 	@DataField(pos = 2, required=true)
 	private String productSerialNumber;
