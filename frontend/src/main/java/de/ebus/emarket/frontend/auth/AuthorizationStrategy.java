@@ -17,17 +17,14 @@ public class AuthorizationStrategy implements IAuthorizationStrategy {
 	}
 
 	@Override
-    public <T extends IRequestableComponent> boolean isInstantiationAuthorized(Class<T> componentClass)
-    {
-        if (AuthenticatedWebPage.class.isAssignableFrom(componentClass))
-        {
-            if (((AuthenticatedSession)Session.get()).isSignedIn())
-            {
-                return true;
-            }
-            throw new RestartResponseAtInterceptPageException(LoginPage.class);
-        }
-        return true;
-    }
+	public <T extends IRequestableComponent> boolean isInstantiationAuthorized(Class<T> componentClass) {
+		if (AuthenticatedWebPage.class.isAssignableFrom(componentClass)) {
+			if (((AuthenticatedSession) Session.get()).isSignedIn()) {
+				return true;
+			}
+			throw new RestartResponseAtInterceptPageException(LoginPage.class);
+		}
+		return true;
+	}
 
 }

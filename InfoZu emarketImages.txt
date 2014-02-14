@@ -1,0 +1,1 @@
+den Ordner emarketImages in das data verzeichniss des Servers legen

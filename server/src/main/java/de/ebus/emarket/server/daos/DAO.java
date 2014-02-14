@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import de.ebus.emarket.api.IDAO;
@@ -13,24 +14,29 @@ public abstract class DAO implements IDAO {
 
 	static Logger logger = Logger.getLogger(DAO.class.getName());
 	private EntityManager entityManager;
-	
+
 	@Override
 	public abstract Class<? extends AEntity> getEntityClass();
-	
-	
-	/* (non-Javadoc)
-	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#setEntityManager(javax.persistence.EntityManager)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.yoc.gaming.publisher_webservice.daos.IDAO#setEntityManager(javax.
+	 * persistence.EntityManager)
 	 */
 	@Override
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
-	
+
 	protected EntityManager getEntityManager() {
-		return this.entityManager;
+		return entityManager;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#create(T)
 	 */
 	@Override
@@ -39,8 +45,11 @@ public abstract class DAO implements IDAO {
 		return entity;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#delete(com.yoc.gaming.publisher_webservice.entities.AEntity)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#delete(com.yoc.gaming.
+	 * publisher_webservice.entities.AEntity)
 	 */
 	@Override
 	public void delete(final AEntity entity) {
@@ -48,8 +57,11 @@ public abstract class DAO implements IDAO {
 		em.remove(em.find(entity.getClass(), entity.getId()));
 	}
 
-	/* (non-Javadoc)
-	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#deleteAll(java.lang.Class)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.yoc.gaming.publisher_webservice.daos.IDAO#deleteAll(java.lang.Class)
 	 */
 	@Override
 	public void deleteAll() {
@@ -59,18 +71,23 @@ public abstract class DAO implements IDAO {
 		q.executeUpdate();
 	}
 
-	
-
-	/* (non-Javadoc)
-	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#read(java.lang.Class, long)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#read(java.lang.Class,
+	 * long)
 	 */
 	@Override
 	public AEntity read(final long id) {
 		return getEntityManager().find(getEntityClass(), id);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#readAll(java.lang.Class, boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.yoc.gaming.publisher_webservice.daos.IDAO#readAll(java.lang.Class,
+	 * boolean)
 	 */
 	@Override
 	public <T extends AEntity> List<T> readAll(boolean alsoDeleted) {
@@ -78,8 +95,12 @@ public abstract class DAO implements IDAO {
 		return readByJPQL("SELECT c FROM " + getEntityClass().getName() + " c " + constr);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#readByJPQL(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.yoc.gaming.publisher_webservice.daos.IDAO#readByJPQL(java.lang.String
+	 * )
 	 */
 	@Override
 	public <T extends AEntity> List<T> readByJPQL(final String jpqString) {
@@ -90,8 +111,29 @@ public abstract class DAO implements IDAO {
 		return list;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#remove(com.yoc.gaming.publisher_webservice.entities.AEntity)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.yoc.gaming.publisher_webservice.daos.IDAO#readByJPQL(java.lang.String
+	 * )
+	 */
+	@Override
+	public Object readSingleResultByJPQL(String jpqString) {
+		try {
+			final EntityManager em = getEntityManager();
+			final Query q = em.createQuery(jpqString);
+			return q.getSingleResult();
+		} catch (final NoResultException e) {
+			return null;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#remove(com.yoc.gaming.
+	 * publisher_webservice.entities.AEntity)
 	 */
 	@Override
 	public void remove(final AEntity entity) {
@@ -100,17 +142,13 @@ public abstract class DAO implements IDAO {
 		em.merge(entity);
 	}
 
-	// TODO: also creates
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.yoc.gaming.publisher_webservice.daos.IDAO#update(T)
 	 */
 	@Override
 	public <T extends AEntity> T update(final T entity) {
 		return getEntityManager().merge(entity);
 	}
-
-	
-
-	
 }
-

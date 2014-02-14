@@ -10,18 +10,19 @@ public class SystemUser extends AEntity {
 	private static final long serialVersionUID = 5768237668903485327L;
 	private String username;
 	private String password;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Company company;
 
-	public SystemUser(){}
-	
-	public SystemUser(String username, String password, Company company){
+	public SystemUser() {
+	}
+
+	public SystemUser(String username, String password, Company company) {
 		setUsername(username);
 		setPassword(password);
 		setCompany(company);
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}

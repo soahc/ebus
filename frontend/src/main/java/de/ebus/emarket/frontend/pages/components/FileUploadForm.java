@@ -8,22 +8,24 @@ import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.util.lang.Bytes;
 
+import de.ebus.emarket.api.IDAOProvider;
+import de.ebus.emarket.frontend.auth.AuthenticatedSession;
+import de.ebus.emarket.persistence.entities.Company;
+
 public class FileUploadForm extends Form<Void> {
 
 	private static final long serialVersionUID = 4840983544285452921L;
 	private FileUploadField fileUpload;
-	private String fileID = null;
-	
+
 	public FileUploadForm(String id, String fileID) {
 		super(id);
-		this.fileID = fileID;
-		//setMultiPart(true);
+		// setMultiPart(true);
 		setMaxSize(Bytes.megabytes(10));
 		add(fileUpload = new FileUploadField("fileUpload"));
 	}
 
 	private String getUploadFolder() {
-		String OS = System.getProperty("os.name").toLowerCase();
+		final String OS = System.getProperty("os.name").toLowerCase();
 		if ((OS.indexOf("win") >= 0)) {
 			return "C:\\data\\emarket\\";
 		} else {
@@ -36,12 +38,19 @@ public class FileUploadForm extends Form<Void> {
 
 		final FileUpload uploadedFile = fileUpload.getFileUpload();
 		if (uploadedFile != null) {
-			//TODO:
-			//checkfiletype up uploadedFile.getContentType()
-			
-			
+			final String[] filenameparts = uploadedFile.getClientFileName().split("\\.(?=[^\\.]+$)");
+
+			if (!(filenameparts[1].toLowerCase().equals("zip"))) {
+				error("file extension is not zip");
+				return;
+			}
+
+			final AuthenticatedSession session = (AuthenticatedSession) getSession();
+			final IDAOProvider daoProvider = session.getDAOProviderService();
+			final Company company = daoProvider.getCompanyDAO().readCompanyFromUser(session.getCurrentUser());
+
 			// write to a new file
-			File newFile = new File(getUploadFolder() + fileID + "_" + new Date().getTime() + ".zip");
+			final File newFile = new File(getUploadFolder() + company.getId() + "_" + filenameparts[0] + "_" + new Date().getTime() + ".zip");
 
 			if (newFile.exists()) {
 				newFile.delete();
@@ -52,8 +61,8 @@ public class FileUploadForm extends Form<Void> {
 				uploadedFile.writeTo(newFile);
 
 				info("saved file: " + newFile.getAbsolutePath()); // uploadedFile.getClientFileName());
-			} catch (Exception e) {
-				throw new IllegalStateException("Error");
+			} catch (final Exception e) {
+				error("error while saving file: " + e.getMessage());
 			}
 		}
 	}

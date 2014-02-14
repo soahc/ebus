@@ -17,16 +17,18 @@ public class Product extends AEntity {
 	private String name;
 	@Column(name = "amount", precision = 19, scale = 2)
 	private BigDecimal price;
-	
-	public Product(String serialNumber, String name, BigDecimal price, Company company){
+	private String imagePath;
+
+	public Product(String serialNumber, String name, BigDecimal price, Company company) {
 		setSerialNumber(serialNumber);
 		setName(name);
 		setPrice(price);
 		setCompany(company);
 	}
-	
-	public Product(){}
-	
+
+	public Product() {
+	}
+
 	public Company getCompany() {
 		return company;
 	}
@@ -57,5 +59,13 @@ public class Product extends AEntity {
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 }

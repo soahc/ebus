@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<bean id="jpaProducts" class="org.apache.camel.component.jpa.JpaComponent">
+		<property name="entityManagerFactory" ref="emfProducts" />
+	</bean>
+
+	<bean id="emfProducts"
+		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="products-pu" />
+	</bean>
+
+	<bean id="jpaStock" class="org.apache.camel.component.jpa.JpaComponent">
+		<property name="entityManagerFactory" ref="emfStock" />
+	</bean>
+
+	<bean id="emfStock"
+		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="stock-pu" />
+	</bean>
+
+	<bean id="zipFileDataFormat" class="org.apache.camel.dataformat.zipfile.ZipFileDataFormat">
+		<property name="usingIterator" value="true" />
+	</bean>
+
+	<!-- Camel processor -->
+	<bean id="IDAdderProcessor" class="de.ebus.emarket.camel.processor.CompanyIDAdder" />
+	<bean id="IDSaverProcessor" class="de.ebus.emarket.camel.processor.CompanyIDSaver" />
+	<bean id="StockIDAdderProcessor" class="de.ebus.emarket.camel.processor.StockIDAdder" />
+
+	<camel:camelContext>
+		<camel:contextScan />
+
+		<camel:route id="unzipMultipleFiles">
+			<camel:from
+				uri="file:///data/emarket/?delay=1000&amp;noop=false&amp;idempotent=false" />
+			<camel:unmarshal ref="zipFileDataFormat" />
+			<camel:log message="TEST: ${file:name}" loggingLevel="WARN" />
+			<camel:setProperty propertyName="zipFileName">
+				<camel:simple>${file:name}</camel:simple>
+			</camel:setProperty>
+			<camel:process ref="IDSaverProcessor" />
+			<camel:split streaming="true">
+				<camel:simple>${body}</camel:simple>
+				<camel:to
+					uri="log:org.apache.camel?level=INFO&amp;showAll=true&amp;multiline=true" />
+				<camel:choice>
+					<camel:when>
+						<camel:simple>${file:name} contains '.csv'</camel:simple>
+						<camel:to
+							uri="file:///data/extracted/?fileName=${property.zipFileName}/${file:name}/" />
+					</camel:when>
+				</camel:choice>
+				<camel:choice>	
+					<camel:when>
+						<camel:simple>${file:name} contains '.jpg'</camel:simple>
+						<camel:to
+							uri="file:///data/emarketImages/images/products/?fileName=${property.companyId}/${file:name}/" />
+					</camel:when>
+				</camel:choice>
+			</camel:split>
+		</camel:route>
+
+		<camel:route id="bindy-csv-unmarshalling" autoStartup="true">
+			<camel:from
+				uri="file:///data/extracted/?noop=false&amp;recursive=true&amp;delay=1000" />
+			<camel:split streaming="true">
+				<camel:tokenize token="\n" group="1" />
+				<camel:filter>
+					<camel:simple>${property.CamelSplitIndex} > 0</camel:simple>
+					<camel:choice>
+						<camel:when>
+							<camel:simple>${file:name} contains 'products'</camel:simple>
+							<camel:to uri="direct:unmarshalproducts" />
+						</camel:when>
+						</camel:choice>
+						<camel:choice>
+					 	<camel:when>
+							<camel:simple>${file:name} contains 'stock'</camel:simple>
+							<camel:to uri="direct:unmarshalstock" />
+						</camel:when> 
+					</camel:choice>
+				</camel:filter>
+			</camel:split>
+		</camel:route>
+
+		<camel:route id="productbindy-to-jpa">
+			<camel:from uri="direct:unmarshalproducts" />
+			<camel:unmarshal ref="bindyDataformat">
+				<camel:bindy type="Csv"
+					classType="de.ebus.emarket.camel.products.Product" />
+			</camel:unmarshal>
+			<camel:setProperty propertyName="csvFileName">
+				<camel:simple>${file:name}</camel:simple>
+			</camel:setProperty>
+			<camel:process ref="IDAdderProcessor" />
+			<camel:log message="Productdetails are ${body}"
+				loggingLevel="WARN" />
+			<camel:to uri="jpaProducts://de.ebus.emarket.camel.products.Product" />
+		</camel:route>
+
+		<camel:route id="stockbindy-to-jpa">
+			<camel:from uri="direct:unmarshalstock" />
+			<camel:unmarshal ref="bindyDataformat">
+				<camel:bindy type="Csv"
+					classType="de.ebus.emarket.camel.entities.StockItem" />
+			</camel:unmarshal>
+			<camel:setProperty propertyName="csvFileName">
+				<camel:simple>${file:name}</camel:simple>
+			</camel:setProperty>
+			<camel:process ref="StockIDAdderProcessor" />
+			<camel:log message="Stockitemdetails are ${body}"
+				loggingLevel="WARN" />
+			<camel:to uri="jpaStock://de.ebus.emarket.camel.entities.StockItem" />
+		</camel:route>
+
+	</camel:camelContext>
+</beans>

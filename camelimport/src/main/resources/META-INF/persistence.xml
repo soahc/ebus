@@ -1,0 +1,38 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+    http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+	<persistence-unit name="products-pu">
+		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider> 
+		<class>de.ebus.emarket.camel.entities.AEntity</class>
+		<class>de.ebus.emarket.camel.products.Product</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver" />
+			<property name="openjpa.ConnectionURL" value="jdbc:postgresql://localhost/products" />
+			<property name="openjpa.ConnectionUserName" value="postgres" />
+			<property name="openjpa.ConnectionPassword" value="smx" />
+			<property name="openjpa.DynamicEnhancementAgent" value="true" />
+			<property name="openjpa.RuntimeUnenhancedClasses" value="supported" />
+		</properties>
+	</persistence-unit>
+	
+	<persistence-unit name="stock-pu">
+		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider> 
+		<class>de.ebus.emarket.camel.entities.AEntity</class>
+		<class>de.ebus.emarket.camel.entities.StockItem</class>
+		<class>de.ebus.emarket.camel.entities.Stock</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver" />
+			<property name="openjpa.ConnectionURL" value="jdbc:mysql://localhost/stock" />
+			<property name="openjpa.ConnectionUserName" value="ebus" />
+			<property name="openjpa.ConnectionPassword" value="smx" />
+			<property name="openjpa.DynamicEnhancementAgent" value="true" />
+			<property name="openjpa.RuntimeUnenhancedClasses" value="supported" />
+		</properties>
+	</persistence-unit> 
+</persistence>
+
+ 
